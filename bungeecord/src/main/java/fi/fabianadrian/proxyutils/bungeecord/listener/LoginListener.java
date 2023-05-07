@@ -1,6 +1,6 @@
-package fi.fabianadrian.proxyutils.common.listener;
+package fi.fabianadrian.proxyutils.bungeecord.listener;
 
-import fi.fabianadrian.proxyutils.common.ProxyUtilsBungeecord;
+import fi.fabianadrian.proxyutils.bungeecord.ProxyUtilsBungeecord;
 import fi.fabianadrian.proxyutils.common.locale.Color;
 import fi.fabianadrian.proxyutils.common.service.GeoIP2Service;
 import net.kyori.adventure.text.Component;

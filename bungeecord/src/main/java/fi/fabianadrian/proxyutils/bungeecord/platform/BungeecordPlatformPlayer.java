@@ -1,5 +1,6 @@
-package fi.fabianadrian.proxyutils.common.platform;
+package fi.fabianadrian.proxyutils.bungeecord.platform;
 
+import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeecordPlatformPlayer implements PlatformPlayer {

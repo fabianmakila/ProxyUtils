@@ -30,7 +30,6 @@ tasks {
             "io.leangen",
             "net.kyori.adventure.text.minimessage",
             "org.bstats",
-            "org.yaml",
             "space.arim",
             "net.kyori"
         ).forEach { pkg ->

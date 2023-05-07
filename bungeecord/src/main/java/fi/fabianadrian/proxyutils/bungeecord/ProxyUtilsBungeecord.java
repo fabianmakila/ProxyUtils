@@ -1,12 +1,13 @@
-package fi.fabianadrian.proxyutils.common;
+package fi.fabianadrian.proxyutils.bungeecord;
 
 import cloud.commandframework.CommandManager;
 import cloud.commandframework.bungee.BungeeCommandManager;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
-import fi.fabianadrian.proxyutils.common.command.BungeecordCommander;
+import fi.fabianadrian.proxyutils.common.ProxyUtils;
+import fi.fabianadrian.proxyutils.bungeecord.command.BungeecordCommander;
 import fi.fabianadrian.proxyutils.common.command.Commander;
-import fi.fabianadrian.proxyutils.common.listener.LoginListener;
-import fi.fabianadrian.proxyutils.common.platform.BungeecordPlatformPlayer;
+import fi.fabianadrian.proxyutils.bungeecord.listener.LoginListener;
+import fi.fabianadrian.proxyutils.bungeecord.platform.BungeecordPlatformPlayer;
 import fi.fabianadrian.proxyutils.common.platform.Platform;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;

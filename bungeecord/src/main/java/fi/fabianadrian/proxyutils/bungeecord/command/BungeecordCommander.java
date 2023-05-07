@@ -1,5 +1,6 @@
-package fi.fabianadrian.proxyutils.common.command;
+package fi.fabianadrian.proxyutils.bungeecord.command;
 
+import fi.fabianadrian.proxyutils.common.command.Commander;
 import net.kyori.adventure.audience.Audience;
 import net.md_5.bungee.api.CommandSender;
 import org.jetbrains.annotations.NotNull;
