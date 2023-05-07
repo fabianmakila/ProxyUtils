@@ -4,45 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1db7d09-0417-4b9c-b94f-046a4ce00037" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/buildSrc/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/ProxyUtilsBungeecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/command/BungeecordCommander.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/listener/LoginListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/platform/BungeecordPlatformPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/ProxyUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/command/Commander.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/command/ProxyUtilsCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/command/commands/RootCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/command/commands/StaffCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/config/ConfigManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/config/ProxyUtilsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/locale/Color.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/locale/TranslationManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/platform/Platform.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/platform/PlatformPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/service/GeoIP2Service.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/resources/messages_en.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/src/main/resources/messages_fi.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/velocity/src/main/java/fi/fabianadrian/proxyutils/velocity/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/velocity/src/main/java/fi/fabianadrian/proxyutils/velocity/ProxyUtilsVelocity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/velocity/src/main/java/fi/fabianadrian/proxyutils/velocity/command/VelocityCommander.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/velocity/src/main/java/fi/fabianadrian/proxyutils/velocity/listener/LoginListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/velocity/src/main/java/fi/fabianadrian/proxyutils/velocity/platform/VelocityPlatformPlayer.java" afterDir="false" />
+    <list default="true" id="c1db7d09-0417-4b9c-b94f-046a4ce00037" name="Changes" comment="Add rest of the files to the git">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/resources/messages_fi.properties" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/resources/messages_fi.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,6 +164,18 @@
       <option name="presentableId" value="Default" />
       <updated>1683466976454</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add rest of the files to the git">
+      <created>1683488658330</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1683488658330</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add rest of the files to the git" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add rest of the files to the git" />
   </component>
 </project>
