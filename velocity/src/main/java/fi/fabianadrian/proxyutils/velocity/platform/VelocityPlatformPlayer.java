@@ -1,4 +1,4 @@
-package platform;
+package fi.fabianadrian.proxyutils.velocity.platform;
 
 import com.velocitypowered.api.proxy.Player;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;

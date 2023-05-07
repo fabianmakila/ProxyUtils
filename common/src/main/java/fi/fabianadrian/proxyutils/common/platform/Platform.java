@@ -1,19 +1,18 @@
-package fi.fabianadrian.proxychat.common.platform;
+package fi.fabianadrian.proxyutils.common.platform;
 
 import cloud.commandframework.CommandManager;
-import fi.fabianadrian.proxychat.common.command.Commander;
-import fi.fabianadrian.proxychat.common.hook.HookManager;
-import net.kyori.adventure.audience.ForwardingAudience;
+import fi.fabianadrian.proxyutils.common.command.Commander;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
+import java.util.List;
 
-public interface Platform extends ForwardingAudience.Single {
+public interface Platform {
     Logger logger();
 
     Path dataDirectory();
 
     CommandManager<Commander> commandManager();
 
-    HookManager hookManager();
+    List<PlatformPlayer> onlinePlayers();
 }

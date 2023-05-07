@@ -1,2 +1,99 @@
-package fi.fabianadrian.proxyutils.velocity;public class ProxyUtilsVelocity {
+package fi.fabianadrian.proxyutils.velocity;
+
+import cloud.commandframework.CommandManager;
+import cloud.commandframework.execution.CommandExecutionCoordinator;
+import cloud.commandframework.velocity.VelocityCommandManager;
+import com.google.inject.Inject;
+import com.velocitypowered.api.event.EventManager;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.ProxyServer;
+import fi.fabianadrian.proxyutils.common.ProxyUtils;
+import fi.fabianadrian.proxyutils.common.command.Commander;
+import fi.fabianadrian.proxyutils.common.platform.Platform;
+import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
+import fi.fabianadrian.proxyutils.velocity.command.VelocityCommander;
+import fi.fabianadrian.proxyutils.velocity.listener.LoginListener;
+import fi.fabianadrian.proxyutils.velocity.platform.VelocityPlatformPlayer;
+import org.bstats.velocity.Metrics;
+import org.slf4j.Logger;
+
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@Plugin(
+    id = "proxyutils",
+    name = "ProxyUtils",
+    version = Constants.VERSION,
+    url = "https://github.com/fabianmakila/ProxyUtils",
+    description = Constants.DESCRIPTION,
+    authors = {"FabianAdrian"}
+)
+public class ProxyUtilsVelocity implements Platform {
+    private final Path dataDirectory;
+    private final Metrics.Factory metricsFactory;
+    private final ProxyServer server;
+    private final Logger logger;
+    private ProxyUtils proxyUtils;
+    private CommandManager<Commander> commandManager;
+
+    @Inject
+    public ProxyUtilsVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory, Metrics.Factory metricsFactory) {
+        this.server = server;
+        this.logger = logger;
+        this.dataDirectory = dataDirectory;
+        this.metricsFactory = metricsFactory;
+    }
+
+    @Subscribe
+    public void onProxyInitialization(ProxyInitializeEvent event) {
+        this.commandManager = new VelocityCommandManager<>(
+            this.server.getPluginManager().ensurePluginContainer(this),
+            this.server,
+            CommandExecutionCoordinator.simpleCoordinator(),
+            VelocityCommander::new,
+            commander -> ((VelocityCommander) commander).commandSource()
+        );
+
+        this.proxyUtils = new ProxyUtils(this);
+
+        registerListeners();
+
+        //this.metricsFactory.make()
+    }
+
+    @Override
+    public Logger logger() {
+        return this.logger;
+    }
+
+    @Override
+    public Path dataDirectory() {
+        return this.dataDirectory;
+    }
+
+    @Override
+    public CommandManager<Commander> commandManager() {
+        return this.commandManager;
+    }
+
+    @Override
+    public List<PlatformPlayer> onlinePlayers() {
+        return this.server.getAllPlayers().stream().map(VelocityPlatformPlayer::new).collect(Collectors.toList());
+    }
+
+    public ProxyUtils proxyUtils() {
+        return this.proxyUtils;
+    }
+
+    private void registerListeners() {
+        EventManager manager = this.server.getEventManager();
+        Stream.of(
+            new LoginListener(this)
+        ).forEach(listener -> manager.register(this, listener));
+    }
 }

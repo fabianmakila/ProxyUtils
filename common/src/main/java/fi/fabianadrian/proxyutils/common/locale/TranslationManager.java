@@ -1,4 +1,4 @@
-package fi.fabianadrian.proxyutils.common.platform;
+package fi.fabianadrian.proxyutils.common.locale;
 
 import com.google.common.collect.Maps;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
