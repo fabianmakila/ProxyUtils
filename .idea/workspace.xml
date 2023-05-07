@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1db7d09-0417-4b9c-b94f-046a4ce00037" name="Changes" comment="message fixes">
+    <list default="true" id="c1db7d09-0417-4b9c-b94f-046a4ce00037" name="Changes" comment="Fix bungeecord">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bungeecord/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/bungeecord/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/ProxyUtilsBungeecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/bungeecord/ProxyUtilsBungeecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/command/BungeecordCommander.java" beforeDir="false" afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/bungeecord/command/BungeecordCommander.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/listener/LoginListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/bungeecord/listener/LoginListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/common/platform/BungeecordPlatformPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/bungeecord/src/main/java/fi/fabianadrian/proxyutils/bungeecord/platform/BungeecordPlatformPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/command/commands/StaffCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/fi/fabianadrian/proxyutils/common/command/commands/StaffCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,12 +178,20 @@
       <option name="project" value="LOCAL" />
       <updated>1683489291846</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fix bungeecord">
+      <created>1683490306502</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683490306502</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add rest of the files to the git" />
     <MESSAGE value="message fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="message fixes" />
+    <MESSAGE value="Fix bungeecord" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bungeecord" />
   </component>
 </project>

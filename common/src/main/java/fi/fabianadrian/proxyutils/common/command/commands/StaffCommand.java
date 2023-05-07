@@ -23,7 +23,7 @@ public class StaffCommand extends ProxyUtilsCommand {
 
     public void executeStaff(CommandContext<Commander> ctx) {
         List<Component> onlineStaffAsComponents = this.proxyUtils.platform().onlinePlayers().stream()
-            .filter(player -> player.hasPermission("proxychat.staff"))
+            .filter(player -> player.hasPermission("proxyutils.staff"))
             .map(player -> Component.text("- ", Color.GRAY.textColor).append(Component.text(player.name(), Color.WHITE.textColor)))
             .collect(Collectors.toList());
 
