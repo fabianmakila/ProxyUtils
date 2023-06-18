@@ -2,6 +2,7 @@ package fi.fabianadrian.proxyutils.common;
 
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
 import fi.fabianadrian.proxyutils.common.command.commands.RootCommand;
+import fi.fabianadrian.proxyutils.common.command.commands.SendCommand;
 import fi.fabianadrian.proxyutils.common.command.commands.StaffCommand;
 import fi.fabianadrian.proxyutils.common.config.ConfigManager;
 import fi.fabianadrian.proxyutils.common.locale.TranslationManager;
@@ -38,6 +39,7 @@ public final class ProxyUtils {
     private void registerCommands() {
         Stream.of(
             new RootCommand(this),
+            new SendCommand(this),
             new StaffCommand(this)
         ).forEach(ProxyUtilsCommand::register);
     }
