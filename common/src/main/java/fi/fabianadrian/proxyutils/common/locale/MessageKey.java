@@ -15,7 +15,7 @@ public enum MessageKey {
 
     MessageKey(MessageType messageType) {
         this.messageType = messageType;
-        this.key = "proxyutils" + this.name().toLowerCase(Locale.ROOT).replace("_", ".");
+        this.key = "proxyutils." + this.name().toLowerCase(Locale.ROOT).replace("_", ".");
     }
 
     enum MessageType {
