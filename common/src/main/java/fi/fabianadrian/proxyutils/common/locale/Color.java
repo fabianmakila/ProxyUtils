@@ -10,8 +10,8 @@ public enum Color {
     GRAY("#aaaaaa"),
 
     RED("#ff5555"),
-    YELLOW("ffff55"),
-    GREEN("55ff55");
+    YELLOW("#ffff55"),
+    GREEN("#55ff55");
 
     public final TextColor textColor;
 
