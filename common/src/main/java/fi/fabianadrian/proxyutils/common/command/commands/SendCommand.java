@@ -25,13 +25,13 @@ public class SendCommand extends ProxyUtilsCommand {
     @Override
     public void register() {
         this.manager.command(
-                this.builder().literal("player").argument(PlayerArgument.of(PLAYER_KEY)).argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendPlayer)
+                subCommand("player").argument(PlayerArgument.of(PLAYER_KEY)).argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendPlayer)
         );
         this.manager.command(
-                this.builder().literal("server").argument(ServerArgument.of(SERVER_KEY)).argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendServer)
+                subCommand("server").argument(ServerArgument.of(SERVER_KEY)).argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendServer)
         );
         this.manager.command(
-                this.builder().literal("all").argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendAll)
+                subCommand("all").argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendAll)
         );
     }
 
