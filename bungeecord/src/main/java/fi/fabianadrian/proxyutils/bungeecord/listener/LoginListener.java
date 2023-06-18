@@ -2,6 +2,8 @@ package fi.fabianadrian.proxyutils.bungeecord.listener;
 
 import fi.fabianadrian.proxyutils.bungeecord.ProxyUtilsBungeecord;
 import fi.fabianadrian.proxyutils.common.locale.Color;
+import fi.fabianadrian.proxyutils.common.locale.MessageKey;
+import fi.fabianadrian.proxyutils.common.locale.Messages;
 import fi.fabianadrian.proxyutils.common.service.GeoIP2Service;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
@@ -12,9 +14,11 @@ import net.md_5.bungee.event.EventHandler;
 
 public class LoginListener implements Listener {
     private final GeoIP2Service geoIP2Service;
+    private final Messages messages;
 
     public LoginListener(ProxyUtilsBungeecord plugin) {
         this.geoIP2Service = plugin.proxyUtils().geoIP2Service();
+        this.messages = plugin.proxyUtils().messages();
     }
 
     @EventHandler
@@ -28,6 +32,6 @@ public class LoginListener implements Listener {
             return;
         }
 
-        player.disconnect(BungeeComponentSerializer.get().serialize(Component.translatable("proxyutils.geoip2.disallowed", Color.RED.textColor)));
+        player.disconnect(BungeeComponentSerializer.get().serialize(this.messages.message(MessageKey.GEOIP2_DISALLOWED)));
     }
 }

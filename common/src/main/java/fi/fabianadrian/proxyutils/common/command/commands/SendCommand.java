@@ -6,9 +6,9 @@ import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
 import fi.fabianadrian.proxyutils.common.command.argument.PlayerArgument;
 import fi.fabianadrian.proxyutils.common.command.argument.ServerArgument;
+import fi.fabianadrian.proxyutils.common.locale.MessageKey;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
-import net.kyori.adventure.text.Component;
 
 public class SendCommand extends ProxyUtilsCommand {
     private static final String PLAYER_KEY = "player";
@@ -37,9 +37,8 @@ public class SendCommand extends ProxyUtilsCommand {
         PlatformServer server = ctx.get(DESTINATION_KEY);
 
         this.proxyUtils.platform().transferPlayer(player, server);
-        ctx.getSender().sendMessage(
-                Component.translatable("proxychat.command.send.player").args(Component.text(player.name()), Component.text(server.name()))
-        );
+
+        this.messages.sendMessage(ctx.getSender(), MessageKey.COMMAND_SEND_PLAYER, player.name(), server.name());
     }
 
     private void executeSendServer(CommandContext<Commander> ctx) {
@@ -47,9 +46,8 @@ public class SendCommand extends ProxyUtilsCommand {
         PlatformServer destination = ctx.get(DESTINATION_KEY);
 
         this.proxyUtils.platform().transferPlayers(server.players(), destination);
-        ctx.getSender().sendMessage(
-                Component.translatable("proxychat.command.send.server").args(Component.text(server.name()), Component.text(destination.name()))
-        );
+
+        this.messages.sendMessage(ctx.getSender(), MessageKey.COMMAND_SEND_SERVER, server.name(), destination.name());
     }
 
     private void executeSendAll(CommandContext<Commander> ctx) {
@@ -59,8 +57,7 @@ public class SendCommand extends ProxyUtilsCommand {
                 this.proxyUtils.platform().onlinePlayers(),
                 destination
         );
-        ctx.getSender().sendMessage(
-                Component.translatable("proxychat.command.send.all").args(Component.text(destination.name()))
-        );
+
+        this.messages.sendMessage(ctx.getSender(), MessageKey.COMMAND_SEND_ALL, destination.name());
     }
 }

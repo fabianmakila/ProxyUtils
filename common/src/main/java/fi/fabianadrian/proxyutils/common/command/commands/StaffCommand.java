@@ -4,9 +4,8 @@ import cloud.commandframework.context.CommandContext;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
-import fi.fabianadrian.proxyutils.common.locale.Color;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.JoinConfiguration;
+import fi.fabianadrian.proxyutils.common.locale.MessageKey;
+import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,17 +21,13 @@ public class StaffCommand extends ProxyUtilsCommand {
     }
 
     public void executeStaff(CommandContext<Commander> ctx) {
-        List<Component> onlineStaffAsComponents = this.proxyUtils.platform().onlinePlayers().stream()
-            .filter(player -> player.hasPermission("proxyutils.staff"))
-            .map(player -> Component.text("- ", Color.GRAY.textColor).append(Component.text(player.name(), Color.WHITE.textColor)))
-            .collect(Collectors.toList());
+        List<String> onlineStaffNames = this.proxyUtils.platform().onlinePlayers().stream()
+                .filter(player -> player.hasPermission("proxyutils.staff"))
+                .map(PlatformPlayer::name)
+                .collect(Collectors.toList());
 
         ctx.getSender().sendMessage(
-            Component.translatable("proxyutils.command.staff.header", Color.PRIMARY.textColor)
-                .append(Component.newline())
-                .append(
-                    Component.join(JoinConfiguration.separator(Component.newline()), onlineStaffAsComponents)
-                )
+                this.messages.message(MessageKey.COMMAND_STAFF_LIST).appendNewline().append(this.messages.list(onlineStaffNames))
         );
     }
 }

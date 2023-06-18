@@ -6,6 +6,7 @@ import fi.fabianadrian.proxyutils.common.command.commands.SendCommand;
 import fi.fabianadrian.proxyutils.common.command.commands.StaffCommand;
 import fi.fabianadrian.proxyutils.common.command.processor.ProxyUtilsCommandPreprocessor;
 import fi.fabianadrian.proxyutils.common.config.ConfigManager;
+import fi.fabianadrian.proxyutils.common.locale.Messages;
 import fi.fabianadrian.proxyutils.common.locale.TranslationManager;
 import fi.fabianadrian.proxyutils.common.platform.Platform;
 import fi.fabianadrian.proxyutils.common.service.GeoIP2Service;
@@ -17,6 +18,7 @@ public final class ProxyUtils {
     private final ConfigManager configManager;
     private final TranslationManager translationManager;
     private final GeoIP2Service geoIP2Service;
+    private final Messages messages;
 
     public ProxyUtils(Platform platform) {
         this.platform = platform;
@@ -26,6 +28,9 @@ public final class ProxyUtils {
 
         this.translationManager = new TranslationManager(this);
         this.translationManager.reload();
+
+        this.messages = new Messages(this);
+        this.messages.reload();
 
         this.geoIP2Service = new GeoIP2Service(this);
         this.geoIP2Service.reload();
@@ -54,9 +59,14 @@ public final class ProxyUtils {
         return this.geoIP2Service;
     }
 
+    public Messages messages() {
+        return this.messages;
+    }
+
     public void reload() {
         this.configManager.reload();
         this.translationManager.reload();
+        this.messages.reload();
         this.geoIP2Service.reload();
     }
 }

@@ -5,6 +5,7 @@ import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
 import fi.fabianadrian.proxyutils.common.locale.Color;
+import fi.fabianadrian.proxyutils.common.locale.MessageKey;
 import net.kyori.adventure.text.Component;
 
 public class RootCommand extends ProxyUtilsCommand {
@@ -21,6 +22,6 @@ public class RootCommand extends ProxyUtilsCommand {
 
     private void executeReload(CommandContext<Commander> ctx) {
         this.proxyUtils.reload();
-        ctx.getSender().sendMessage(Component.translatable("proxyutils.command.reload", Color.PRIMARY.textColor));
+        this.messages.sendMessage(ctx.getSender(), MessageKey.COMMAND_ROOT_RELOAD);
     }
 }
