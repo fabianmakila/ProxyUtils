@@ -13,8 +13,6 @@ public interface ProxyUtilsConfig {
 
     GeoIP2 geoIP2();
 
-    Colors colors();
-
     @SubSection
     interface GeoIP2 {
         @ConfDefault.DefaultBoolean(false)
@@ -34,21 +32,5 @@ public interface ProxyUtilsConfig {
         enum ListType {
             BLACKLIST, WHITELIST
         }
-    }
-
-    @SubSection
-    interface Colors {
-        @ConfDefault.DefaultString("#ffffff")
-        String primary();
-        @ConfDefault.DefaultString("#facc15")
-        String accent();
-        @ConfDefault.DefaultString("#55ff55")
-        String success();
-        @ConfDefault.DefaultString("#ffff55")
-        String warning();
-        @ConfDefault.DefaultString("#ff5555")
-        String error();
-        @ConfDefault.DefaultString("#aaaaaa")
-        String gray();
     }
 }

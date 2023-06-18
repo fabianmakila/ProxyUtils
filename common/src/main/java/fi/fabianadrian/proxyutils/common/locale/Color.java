@@ -4,9 +4,14 @@ import net.kyori.adventure.text.format.TextColor;
 
 public enum Color {
     PRIMARY("#facc15"),
+
     WHITE("#ffffff"),
-    GRAY("#6b7280"),
-    RED("#ef4444");
+    BLACK("#000000"),
+    GRAY("#aaaaaa"),
+
+    RED("#ff5555"),
+    YELLOW("ffff55"),
+    GREEN("55ff55");
 
     public final TextColor textColor;
 

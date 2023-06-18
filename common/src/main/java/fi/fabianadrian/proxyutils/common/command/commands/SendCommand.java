@@ -6,9 +6,12 @@ import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
 import fi.fabianadrian.proxyutils.common.command.argument.PlayerArgument;
 import fi.fabianadrian.proxyutils.common.command.argument.ServerArgument;
-import fi.fabianadrian.proxyutils.common.locale.MessageKey;
+import fi.fabianadrian.proxyutils.common.locale.Color;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.translatable;
 
 public class SendCommand extends ProxyUtilsCommand {
     private static final String PLAYER_KEY = "player";
@@ -38,7 +41,9 @@ public class SendCommand extends ProxyUtilsCommand {
 
         this.proxyUtils.platform().transferPlayer(player, server);
 
-        this.messages.sendMessage(ctx.getSender(), MessageKey.COMMAND_SEND_PLAYER, player.name(), server.name());
+        ctx.getSender().sendMessage(translatable("proxyutils.command.send.player", Color.GREEN.textColor)
+                .args(text(player.name()), text(server.name()))
+        );
     }
 
     private void executeSendServer(CommandContext<Commander> ctx) {
@@ -47,7 +52,10 @@ public class SendCommand extends ProxyUtilsCommand {
 
         this.proxyUtils.platform().transferPlayers(server.players(), destination);
 
-        this.messages.sendMessage(ctx.getSender(), MessageKey.COMMAND_SEND_SERVER, server.name(), destination.name());
+        ctx.getSender().sendMessage(
+                translatable("proxyutils.command.send.server", Color.GREEN.textColor)
+                        .args(text(server.name()), text(destination.name()))
+        );
     }
 
     private void executeSendAll(CommandContext<Commander> ctx) {
@@ -58,6 +66,9 @@ public class SendCommand extends ProxyUtilsCommand {
                 destination
         );
 
-        this.messages.sendMessage(ctx.getSender(), MessageKey.COMMAND_SEND_ALL, destination.name());
+        ctx.getSender().sendMessage(
+                translatable("proxyutils.command.send.all", Color.GREEN.textColor)
+                        .args(text(destination.name()))
+        );
     }
 }
