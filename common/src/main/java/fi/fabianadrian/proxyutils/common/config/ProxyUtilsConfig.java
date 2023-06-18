@@ -44,9 +44,9 @@ public interface ProxyUtilsConfig {
         String accent();
         @ConfDefault.DefaultString("#55ff55")
         String success();
-        @ConfDefault.DefaultString("ffff55")
+        @ConfDefault.DefaultString("#ffff55")
         String warning();
-        @ConfDefault.DefaultString("ff5555")
+        @ConfDefault.DefaultString("#ff5555")
         String error();
         @ConfDefault.DefaultString("#aaaaaa")
         String gray();
