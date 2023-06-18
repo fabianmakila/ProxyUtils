@@ -19,4 +19,8 @@ public class BungeecordPlatformPlayer implements PlatformPlayer {
     public boolean hasPermission(String permission) {
         return this.player.hasPermission(permission);
     }
+
+    public ProxiedPlayer player() {
+        return this.player;
+    }
 }

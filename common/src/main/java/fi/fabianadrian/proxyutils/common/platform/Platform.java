@@ -15,4 +15,10 @@ public interface Platform {
     CommandManager<Commander> commandManager();
 
     List<PlatformPlayer> onlinePlayers();
+
+    List<PlatformServer> servers();
+
+    void transferPlayer(PlatformPlayer player, PlatformServer destination);
+
+    void transferPlayers(List<PlatformPlayer> players, PlatformServer destination);
 }

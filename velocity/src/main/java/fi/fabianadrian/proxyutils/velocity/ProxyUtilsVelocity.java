@@ -10,13 +10,16 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.platform.Platform;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
+import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
 import fi.fabianadrian.proxyutils.velocity.command.VelocityCommander;
 import fi.fabianadrian.proxyutils.velocity.listener.LoginListener;
 import fi.fabianadrian.proxyutils.velocity.platform.VelocityPlatformPlayer;
+import fi.fabianadrian.proxyutils.velocity.platform.VelocityPlatformServer;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -84,6 +87,26 @@ public class ProxyUtilsVelocity implements Platform {
     @Override
     public List<PlatformPlayer> onlinePlayers() {
         return this.server.getAllPlayers().stream().map(VelocityPlatformPlayer::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlatformServer> servers() {
+        return this.server.getAllServers().stream().map(VelocityPlatformServer::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public void transferPlayer(PlatformPlayer player, PlatformServer destination) {
+        ((VelocityPlatformPlayer) player).player().createConnectionRequest(
+                ((VelocityPlatformServer) destination).server()
+        ).fireAndForget();
+    }
+
+    @Override
+    public void transferPlayers(List<PlatformPlayer> players, PlatformServer destination) {
+        RegisteredServer destinationServer = ((VelocityPlatformServer) destination).server();
+        players.forEach(player -> ((VelocityPlatformPlayer) player).player().createConnectionRequest(
+                destinationServer
+        ).fireAndForget());
     }
 
     public ProxyUtils proxyUtils() {

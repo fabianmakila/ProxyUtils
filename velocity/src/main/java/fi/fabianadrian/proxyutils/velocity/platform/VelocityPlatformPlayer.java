@@ -19,4 +19,8 @@ public class VelocityPlatformPlayer implements PlatformPlayer {
     public boolean hasPermission(String permission) {
         return player.hasPermission(permission);
     }
+
+    public Player player() {
+        return this.player;
+    }
 }
