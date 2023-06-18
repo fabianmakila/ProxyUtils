@@ -4,9 +4,7 @@ import cloud.commandframework.context.CommandContext;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
-import fi.fabianadrian.proxyutils.common.locale.Color;
 import fi.fabianadrian.proxyutils.common.locale.MessageKey;
-import net.kyori.adventure.text.Component;
 
 public class RootCommand extends ProxyUtilsCommand {
     public RootCommand(ProxyUtils proxyUtils) {

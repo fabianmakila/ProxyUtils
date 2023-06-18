@@ -1,11 +1,9 @@
 package fi.fabianadrian.proxyutils.bungeecord.listener;
 
 import fi.fabianadrian.proxyutils.bungeecord.ProxyUtilsBungeecord;
-import fi.fabianadrian.proxyutils.common.locale.Color;
 import fi.fabianadrian.proxyutils.common.locale.MessageKey;
 import fi.fabianadrian.proxyutils.common.locale.Messages;
 import fi.fabianadrian.proxyutils.common.service.GeoIP2Service;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
