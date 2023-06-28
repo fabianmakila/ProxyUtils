@@ -1,7 +1,7 @@
 ![ProxyUtilsBanner](/assets/proxyutils-banner.png)
 
 # ProxyUtils
-Utility commands and features for Minecraft proxies.
+ProxyUtils is part of my plugin suite for Minecraft proxies. It comes with many utility commands and features that I use personally.
 
 ## Features
 - Commonly used commands like `/find` and `/send`
