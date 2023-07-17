@@ -31,9 +31,9 @@ import java.util.stream.Stream;
 @Plugin(
     id = "proxyutils",
     name = "ProxyUtils",
-    version = Constants.VERSION,
+    version = "0.1.0",
     url = "https://github.com/fabianmakila/ProxyUtils",
-    description = Constants.DESCRIPTION,
+    description = "Common utilities and features for Minecraft proxies.",
     authors = {"FabianAdrian"}
 )
 public class ProxyUtilsVelocity implements Platform {

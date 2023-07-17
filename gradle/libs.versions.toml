@@ -35,7 +35,6 @@ slf4j = { module = "org.slf4j:slf4j-api", version = "2.0.7" }
 geoip2 = { module = "com.maxmind.geoip2:geoip2", version = "4.0.1" }
 
 [plugins]
-blossom = { id = "net.kyori.blossom", version = "1.3.1" }
 indra = { id = "net.kyori:indra-common", version = "3.0.1" }
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
 spotless = { id = "com.diffplug.spotless:spotless-plugin-gradle", version = "6.18.0" }
