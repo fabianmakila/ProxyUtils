@@ -29,10 +29,10 @@ tasks {
             "com.google.errorprone",
             "com.maxmind",
             "io.leangen",
+            "net.kyori",
             "net.kyori.adventure.text.minimessage",
             "org.bstats",
-            "space.arim",
-            "net.kyori"
+            "space.arim"
         ).forEach { pkg ->
             relocate(pkg, "${project.group}.${rootProject.name.lowercase()}.dependency.$pkg")
         }
