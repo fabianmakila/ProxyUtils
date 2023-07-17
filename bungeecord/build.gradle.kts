@@ -11,6 +11,7 @@ dependencies {
 
     implementation(libs.cloud.bungeecord)
     implementation(libs.adventure.platform.bungeecord)
+    implementation(libs.bstats.bungeecord)
 }
 
 tasks {

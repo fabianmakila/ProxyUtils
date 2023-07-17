@@ -66,7 +66,8 @@ public class ProxyUtilsVelocity implements Platform {
 
         registerListeners();
 
-        //this.metricsFactory.make()
+        // bStats
+        this.metricsFactory.make(this, 18439);
     }
 
     @Override

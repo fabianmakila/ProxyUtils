@@ -16,6 +16,7 @@ import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
+import org.bstats.bungeecord.Metrics;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -42,6 +43,8 @@ public class ProxyUtilsBungeecord extends Plugin implements Platform {
         this.proxyUtils = new ProxyUtils(this);
 
         registerListeners();
+
+        new Metrics(this, 18438);
     }
 
     @Override
