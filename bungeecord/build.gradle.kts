@@ -1,12 +1,10 @@
 plugins {
-    id("proxyutils.java-conventions")
+    id("proxyutils.platform-conventions")
     alias(libs.plugins.shadow)
     alias(libs.plugins.pluginYml.bungee)
 }
 
 dependencies {
-    implementation(projects.common)
-
     compileOnly(libs.waterfall.api)
 
     implementation(libs.cloud.bungeecord)

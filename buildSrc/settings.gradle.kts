@@ -1,3 +1,5 @@
+rootProject.name = "proxyutils-conventions"
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
