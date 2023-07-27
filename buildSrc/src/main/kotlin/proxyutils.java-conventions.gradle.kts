@@ -9,6 +9,12 @@ description = "Common utilities and features for Minecraft proxies."
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(11))
 
+tasks {
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+}
+
 spotless {
     java {
         indentWithSpaces(4)
