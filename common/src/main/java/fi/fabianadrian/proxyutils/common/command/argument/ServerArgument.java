@@ -29,87 +29,87 @@ import java.util.stream.Collectors;
  */
 public final class ServerArgument<C> extends CommandArgument<C, PlatformServer> {
 
-    private ServerArgument(final boolean required, final @NotNull String name, final @NotNull String defaultValue, final @Nullable BiFunction<CommandContext<C>, String, List<String>> suggestionsProvider, final @NotNull ArgumentDescription defaultDescription, final @NotNull Collection<@NotNull BiFunction<@NotNull CommandContext<C>, @NotNull Queue<@NotNull String>, @NotNull ArgumentParseResult<Boolean>>> argumentPreprocessors) {
-        super(required, name, new ServerParser<>(), defaultValue, TypeToken.get(PlatformServer.class), suggestionsProvider, defaultDescription, argumentPreprocessors);
-    }
+	private ServerArgument(final boolean required, final @NotNull String name, final @NotNull String defaultValue, final @Nullable BiFunction<CommandContext<C>, String, List<String>> suggestionsProvider, final @NotNull ArgumentDescription defaultDescription, final @NotNull Collection<@NotNull BiFunction<@NotNull CommandContext<C>, @NotNull Queue<@NotNull String>, @NotNull ArgumentParseResult<Boolean>>> argumentPreprocessors) {
+		super(required, name, new ServerParser<>(), defaultValue, TypeToken.get(PlatformServer.class), suggestionsProvider, defaultDescription, argumentPreprocessors);
+	}
 
-    /**
-     * Create a new argument builder
-     *
-     * @param name Argument name
-     * @param <C>  Command sender type
-     * @return Constructed builder
-     */
-    public static <C> CommandArgument.@NotNull Builder<C, PlatformServer> newBuilder(final @NotNull String name) {
-        return new Builder<C>(name).withParser(new ServerParser<>());
-    }
+	/**
+	 * Create a new argument builder
+	 *
+	 * @param name Argument name
+	 * @param <C>  Command sender type
+	 * @return Constructed builder
+	 */
+	public static <C> CommandArgument.@NotNull Builder<C, PlatformServer> newBuilder(final @NotNull String name) {
+		return new Builder<C>(name).withParser(new ServerParser<>());
+	}
 
-    /**
-     * Create a new required server argument
-     *
-     * @param name Argument name
-     * @param <C>  Command sender type
-     * @return Created argument
-     */
-    public static <C> @NotNull CommandArgument<C, PlatformServer> of(final @NotNull String name) {
-        return ServerArgument.<C>newBuilder(name).asRequired().build();
-    }
+	/**
+	 * Create a new required server argument
+	 *
+	 * @param name Argument name
+	 * @param <C>  Command sender type
+	 * @return Created argument
+	 */
+	public static <C> @NotNull CommandArgument<C, PlatformServer> of(final @NotNull String name) {
+		return ServerArgument.<C>newBuilder(name).asRequired().build();
+	}
 
-    /**
-     * Create a new optional server argument
-     *
-     * @param name Argument name
-     * @param <C>  Command sender type
-     * @return Created argument
-     */
-    public static <C> @NotNull CommandArgument<C, PlatformServer> optional(final @NotNull String name) {
-        return ServerArgument.<C>newBuilder(name).asOptional().build();
-    }
+	/**
+	 * Create a new optional server argument
+	 *
+	 * @param name Argument name
+	 * @param <C>  Command sender type
+	 * @return Created argument
+	 */
+	public static <C> @NotNull CommandArgument<C, PlatformServer> optional(final @NotNull String name) {
+		return ServerArgument.<C>newBuilder(name).asOptional().build();
+	}
 
-    public static final class Builder<C> extends CommandArgument.Builder<C, PlatformServer> {
+	public static final class Builder<C> extends CommandArgument.Builder<C, PlatformServer> {
 
-        private Builder(final @NotNull String name) {
-            super(TypeToken.get(PlatformServer.class), name);
-        }
+		private Builder(final @NotNull String name) {
+			super(TypeToken.get(PlatformServer.class), name);
+		}
 
-        @Override
-        public @NotNull CommandArgument<@NotNull C, @NotNull PlatformServer> build() {
-            return new ServerArgument<>(this.isRequired(), this.getName(), this.getDefaultValue(), this.getSuggestionsProvider(), this.getDefaultDescription(), new LinkedList<>());
-        }
+		@Override
+		public @NotNull CommandArgument<@NotNull C, @NotNull PlatformServer> build() {
+			return new ServerArgument<>(this.isRequired(), this.getName(), this.getDefaultValue(), this.getSuggestionsProvider(), this.getDefaultDescription(), new LinkedList<>());
+		}
 
-    }
+	}
 
-    public static final class ServerParser<C> implements ArgumentParser<C, PlatformServer> {
-        @Override
-        public @NotNull ArgumentParseResult<@NotNull PlatformServer> parse(final @NotNull CommandContext<@NotNull C> ctx, final @NotNull Queue<@NotNull String> inputQueue) {
-            final String input = inputQueue.peek();
-            if (input == null) {
-                return ArgumentParseResult.failure(new NoInputProvidedException(ServerParser.class, ctx));
-            }
+	public static final class ServerParser<C> implements ArgumentParser<C, PlatformServer> {
+		@Override
+		public @NotNull ArgumentParseResult<@NotNull PlatformServer> parse(final @NotNull CommandContext<@NotNull C> ctx, final @NotNull Queue<@NotNull String> inputQueue) {
+			final String input = inputQueue.peek();
+			if (input == null) {
+				return ArgumentParseResult.failure(new NoInputProvidedException(ServerParser.class, ctx));
+			}
 
-            final List<PlatformServer> onlinePlayers = ctx.get(ProxyUtilsContextKeys.PLATFORM_KEY).servers();
+			final List<PlatformServer> onlinePlayers = ctx.get(ProxyUtilsContextKeys.PLATFORM_KEY).servers();
 
-            for (PlatformServer player : onlinePlayers) {
-                if (player.name().equals(input)) {
-                    inputQueue.remove();
-                    return ArgumentParseResult.success(player);
-                }
-            }
-            return ArgumentParseResult.failure(new ServerParseException(input, ctx));
-        }
+			for (PlatformServer player : onlinePlayers) {
+				if (player.name().equals(input)) {
+					inputQueue.remove();
+					return ArgumentParseResult.success(player);
+				}
+			}
+			return ArgumentParseResult.failure(new ServerParseException(input, ctx));
+		}
 
-        @Override
-        public @NotNull List<@NotNull String> suggestions(final @NotNull CommandContext<C> ctx, final @NotNull String input) {
-            final List<PlatformServer> onlinePlayers = ctx.get(ProxyUtilsContextKeys.PLATFORM_KEY).servers();
-            return onlinePlayers.stream().map(PlatformServer::name).collect(Collectors.toList());
-        }
-    }
+		@Override
+		public @NotNull List<@NotNull String> suggestions(final @NotNull CommandContext<C> ctx, final @NotNull String input) {
+			final List<PlatformServer> onlinePlayers = ctx.get(ProxyUtilsContextKeys.PLATFORM_KEY).servers();
+			return onlinePlayers.stream().map(PlatformServer::name).collect(Collectors.toList());
+		}
+	}
 
-    public static final class ServerParseException extends ParserException {
-        private static final long serialVersionUID = -7635049156069168690L;
+	public static final class ServerParseException extends ParserException {
+		private static final long serialVersionUID = -7635049156069168690L;
 
-        private ServerParseException(final @NotNull String input, final @NotNull CommandContext<?> context) {
-            super(ServerParser.class, context, Caption.of("argument.parse.failure.player"), CaptionVariable.of("input", input));
-        }
-    }
+		private ServerParseException(final @NotNull String input, final @NotNull CommandContext<?> context) {
+			super(ServerParser.class, context, Caption.of("argument.parse.failure.player"), CaptionVariable.of("input", input));
+		}
+	}
 }

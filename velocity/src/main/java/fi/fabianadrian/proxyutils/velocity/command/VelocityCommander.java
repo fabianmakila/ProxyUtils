@@ -6,23 +6,23 @@ import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 
 public class VelocityCommander implements Commander {
-    private final CommandSource commandSource;
+	private final CommandSource commandSource;
 
-    public VelocityCommander(CommandSource commandSource) {
-        this.commandSource = commandSource;
-    }
+	public VelocityCommander(CommandSource commandSource) {
+		this.commandSource = commandSource;
+	}
 
-    public CommandSource commandSource() {
-        return this.commandSource;
-    }
+	public CommandSource commandSource() {
+		return this.commandSource;
+	}
 
-    @Override
-    public boolean hasPermission(String permission) {
-        return this.commandSource.hasPermission(permission);
-    }
+	@Override
+	public boolean hasPermission(String permission) {
+		return this.commandSource.hasPermission(permission);
+	}
 
-    @Override
-    public @NotNull Audience audience() {
-        return this.commandSource;
-    }
+	@Override
+	public @NotNull Audience audience() {
+		return this.commandSource;
+	}
 }

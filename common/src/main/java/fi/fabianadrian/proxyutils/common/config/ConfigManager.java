@@ -17,66 +17,66 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
 public final class ConfigManager {
-    private final Logger logger;
-    private final ConfigurationHelper<ProxyUtilsConfig> mainConfigHelper;
+	private final Logger logger;
+	private final ConfigurationHelper<ProxyUtilsConfig> mainConfigHelper;
 
-    private volatile ProxyUtilsConfig mainConfigData;
+	private volatile ProxyUtilsConfig mainConfigData;
 
-    public ConfigManager(ProxyUtils proxyUtils) {
-        this.logger = proxyUtils.platform().logger();
+	public ConfigManager(ProxyUtils proxyUtils) {
+		this.logger = proxyUtils.platform().logger();
 
-        SnakeYamlOptions yamlOptions = new SnakeYamlOptions.Builder()
-            .yamlSupplier(() -> {
-                DumperOptions dumperOptions = new DumperOptions();
-                // Enables comments
-                dumperOptions.setProcessComments(true);
-                dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-                return new Yaml(dumperOptions);
-            })
-            .commentMode(CommentMode.fullComments())
-            .build();
+		SnakeYamlOptions yamlOptions = new SnakeYamlOptions.Builder()
+				.yamlSupplier(() -> {
+					DumperOptions dumperOptions = new DumperOptions();
+					// Enables comments
+					dumperOptions.setProcessComments(true);
+					dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+					return new Yaml(dumperOptions);
+				})
+				.commentMode(CommentMode.fullComments())
+				.build();
 
-        Path dataDirectory = proxyUtils.platform().dataDirectory();
+		Path dataDirectory = proxyUtils.platform().dataDirectory();
 
-        this.mainConfigHelper = new ConfigurationHelper<>(
-            dataDirectory,
-            "config.yml",
-            SnakeYamlConfigurationFactory.create(
-                ProxyUtilsConfig.class,
-                ConfigurationOptions.defaults(),
-                yamlOptions
-            )
-        );
-    }
+		this.mainConfigHelper = new ConfigurationHelper<>(
+				dataDirectory,
+				"config.yml",
+				SnakeYamlConfigurationFactory.create(
+						ProxyUtilsConfig.class,
+						ConfigurationOptions.defaults(),
+						yamlOptions
+				)
+		);
+	}
 
-    public void reload() {
-        try {
-            this.mainConfigData = this.mainConfigHelper.reloadConfigData();
-        } catch (IOException ex) {
-            throw new UncheckedIOException(ex);
+	public void reload() {
+		try {
+			this.mainConfigData = this.mainConfigHelper.reloadConfigData();
+		} catch (IOException ex) {
+			throw new UncheckedIOException(ex);
 
-        } catch (ConfigFormatSyntaxException ex) {
-            this.mainConfigData = this.mainConfigHelper.getFactory().loadDefaults();
-            this.logger.error(
-                "The yaml syntax in your configuration is invalid. " +
-                    "Check your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/",
-                ex
-            );
-        } catch (InvalidConfigException ex) {
-            this.mainConfigData = this.mainConfigHelper.getFactory().loadDefaults();
-            this.logger.error(
-                "One of the values in your configuration is not valid. " +
-                    "Check to make sure you have specified the right data types.",
-                ex
-            );
-        }
-    }
+		} catch (ConfigFormatSyntaxException ex) {
+			this.mainConfigData = this.mainConfigHelper.getFactory().loadDefaults();
+			this.logger.error(
+					"The yaml syntax in your configuration is invalid. " +
+							"Check your YAML syntax with a tool such as https://yaml-online-parser.appspot.com/",
+					ex
+			);
+		} catch (InvalidConfigException ex) {
+			this.mainConfigData = this.mainConfigHelper.getFactory().loadDefaults();
+			this.logger.error(
+					"One of the values in your configuration is not valid. " +
+							"Check to make sure you have specified the right data types.",
+					ex
+			);
+		}
+	}
 
-    public ProxyUtilsConfig mainConfig() {
-        ProxyUtilsConfig configData = this.mainConfigData;
-        if (configData == null) {
-            throw new IllegalStateException("Configuration has not been loaded yet");
-        }
-        return configData;
-    }
+	public ProxyUtilsConfig mainConfig() {
+		ProxyUtilsConfig configData = this.mainConfigData;
+		if (configData == null) {
+			throw new IllegalStateException("Configuration has not been loaded yet");
+		}
+		return configData;
+	}
 }

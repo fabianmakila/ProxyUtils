@@ -12,58 +12,58 @@ import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class GeoIP2Service {
-    private final ProxyUtils proxyUtils;
-    private WebServiceClient client;
-    private final LoadingCache<InetAddress, Country> cache = Caffeine.newBuilder()
-        .maximumSize(1000)
-        .expireAfterWrite(24, TimeUnit.HOURS)
-        .build(address -> this.client.country(address).getCountry());
-    private ProxyUtilsConfig.GeoIP2 config;
+	private final ProxyUtils proxyUtils;
+	private WebServiceClient client;
+	private final LoadingCache<InetAddress, Country> cache = Caffeine.newBuilder()
+			.maximumSize(1000)
+			.expireAfterWrite(24, TimeUnit.HOURS)
+			.build(address -> this.client.country(address).getCountry());
+	private ProxyUtilsConfig.GeoIP2 config;
 
-    public GeoIP2Service(ProxyUtils proxyUtils) {
-        this.proxyUtils = proxyUtils;
-    }
+	public GeoIP2Service(ProxyUtils proxyUtils) {
+		this.proxyUtils = proxyUtils;
+	}
 
-    public void reload() {
-        this.config = this.proxyUtils.configManager().mainConfig().geoIP2();
+	public void reload() {
+		this.config = this.proxyUtils.configManager().mainConfig().geoIP2();
 
-        this.client = null;
+		this.client = null;
 
-        if (this.config.licenceKey().isBlank() || this.config.countryCodes().isEmpty()) {
-            return;
-        }
+		if (this.config.licenceKey().isBlank() || this.config.countryCodes().isEmpty()) {
+			return;
+		}
 
-        if (this.config.geolite()) {
-            this.client = new WebServiceClient.Builder(
-                config.accountID(),
-                config.licenceKey()
-            )
-                .host("geolite.info")
-                .requestTimeout(Duration.ofSeconds(10))
-                .build();
-        } else {
-            this.client = new WebServiceClient.Builder(
-                config.accountID(),
-                config.licenceKey()
-            )
-                .requestTimeout(Duration.ofSeconds(10))
-                .build();
-        }
-    }
+		if (this.config.geolite()) {
+			this.client = new WebServiceClient.Builder(
+					config.accountID(),
+					config.licenceKey()
+			)
+					.host("geolite.info")
+					.requestTimeout(Duration.ofSeconds(10))
+					.build();
+		} else {
+			this.client = new WebServiceClient.Builder(
+					config.accountID(),
+					config.licenceKey()
+			)
+					.requestTimeout(Duration.ofSeconds(10))
+					.build();
+		}
+	}
 
-    public boolean isAllowedToJoin(InetAddress address) {
-        if (this.client == null) {
-            return true;
-        }
+	public boolean isAllowedToJoin(InetAddress address) {
+		if (this.client == null) {
+			return true;
+		}
 
-        Country country = this.cache.get(address);
-        switch (this.config.listType()) {
-            case BLACKLIST:
-                return !this.config.countryCodes().contains(country.getIsoCode());
-            case WHITELIST:
-                return this.config.countryCodes().contains(country.getIsoCode());
-        }
+		Country country = this.cache.get(address);
+		switch (this.config.listType()) {
+			case BLACKLIST:
+				return !this.config.countryCodes().contains(country.getIsoCode());
+			case WHITELIST:
+				return this.config.countryCodes().contains(country.getIsoCode());
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

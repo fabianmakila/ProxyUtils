@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface PlatformServer {
 
-    String name();
+	String name();
 
-    List<PlatformPlayer> players();
+	List<PlatformPlayer> players();
 }

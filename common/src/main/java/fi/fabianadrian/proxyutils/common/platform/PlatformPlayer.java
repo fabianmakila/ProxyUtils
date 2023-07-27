@@ -3,9 +3,9 @@ package fi.fabianadrian.proxyutils.common.platform;
 import java.util.Optional;
 
 public interface PlatformPlayer {
-    String name();
+	String name();
 
-    Optional<PlatformServer> currentServer();
+	Optional<PlatformServer> currentServer();
 
-    boolean hasPermission(String permission);
+	boolean hasPermission(String permission);
 }

@@ -8,23 +8,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BungeecordPlatformServer implements PlatformServer {
-    private final ServerInfo serverInfo;
+	private final ServerInfo serverInfo;
 
-    public BungeecordPlatformServer(ServerInfo serverInfo) {
-        this.serverInfo = serverInfo;
-    }
+	public BungeecordPlatformServer(ServerInfo serverInfo) {
+		this.serverInfo = serverInfo;
+	}
 
-    @Override
-    public String name() {
-        return this.serverInfo.getName();
-    }
+	@Override
+	public String name() {
+		return this.serverInfo.getName();
+	}
 
-    @Override
-    public List<PlatformPlayer> players() {
-        return this.serverInfo.getPlayers().stream().map(BungeecordPlatformPlayer::new).collect(Collectors.toList());
-    }
+	@Override
+	public List<PlatformPlayer> players() {
+		return this.serverInfo.getPlayers().stream().map(BungeecordPlatformPlayer::new).collect(Collectors.toList());
+	}
 
-    public ServerInfo serverInfo() {
-        return this.serverInfo;
-    }
+	public ServerInfo serverInfo() {
+		return this.serverInfo;
+	}
 }

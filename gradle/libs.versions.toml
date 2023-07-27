@@ -23,7 +23,7 @@ guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 
 # Adventure
 adventure-platform-bungeecord = { module = "net.kyori:adventure-platform-bungeecord", version = "4.3.0" }
-adventure-api = { module = "net.kyori:adventure-api", version.ref= "adventure" }
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 
 # Platforms

@@ -25,80 +25,80 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ProxyUtilsBungeecord extends Plugin implements Platform {
-    private BungeeAudiences adventure;
-    private CommandManager<Commander> commandManager;
-    private ProxyUtils proxyUtils;
+	private BungeeAudiences adventure;
+	private CommandManager<Commander> commandManager;
+	private ProxyUtils proxyUtils;
 
-    @Override
-    public void onEnable() {
-        this.adventure = BungeeAudiences.create(this);
+	@Override
+	public void onEnable() {
+		this.adventure = BungeeAudiences.create(this);
 
-        this.commandManager = new BungeeCommandManager<>(
-            this,
-            CommandExecutionCoordinator.simpleCoordinator(),
-            commandSource -> new BungeecordCommander(commandSource, this.adventure.sender(commandSource)),
-            commander -> ((BungeecordCommander) commander).commandSender()
-        );
+		this.commandManager = new BungeeCommandManager<>(
+				this,
+				CommandExecutionCoordinator.simpleCoordinator(),
+				commandSource -> new BungeecordCommander(commandSource, this.adventure.sender(commandSource)),
+				commander -> ((BungeecordCommander) commander).commandSender()
+		);
 
-        this.proxyUtils = new ProxyUtils(this);
+		this.proxyUtils = new ProxyUtils(this);
 
-        registerListeners();
+		registerListeners();
 
-        new Metrics(this, 18438);
-    }
+		new Metrics(this, 18438);
+	}
 
-    @Override
-    public void onDisable() {
-        if (this.adventure != null) {
-            this.adventure.close();
-            this.adventure = null;
-        }
-    }
+	@Override
+	public void onDisable() {
+		if (this.adventure != null) {
+			this.adventure.close();
+			this.adventure = null;
+		}
+	}
 
-    @Override
-    public Logger logger() {
-        return getSLF4JLogger();
-    }
+	@Override
+	public Logger logger() {
+		return getSLF4JLogger();
+	}
 
-    @Override
-    public Path dataDirectory() {
-        return getDataFolder().toPath();
-    }
+	@Override
+	public Path dataDirectory() {
+		return getDataFolder().toPath();
+	}
 
-    @Override
-    public CommandManager<Commander> commandManager() {
-        return this.commandManager;
-    }
+	@Override
+	public CommandManager<Commander> commandManager() {
+		return this.commandManager;
+	}
 
-    @Override
-    public List<PlatformPlayer> onlinePlayers() {
-        return getProxy().getPlayers().stream().map(BungeecordPlatformPlayer::new).collect(Collectors.toList());
-    }
+	@Override
+	public List<PlatformPlayer> onlinePlayers() {
+		return getProxy().getPlayers().stream().map(BungeecordPlatformPlayer::new).collect(Collectors.toList());
+	}
 
-    @Override
-    public List<PlatformServer> servers() {
-        return this.getProxy().getServersCopy().values().stream().map(BungeecordPlatformServer::new).collect(Collectors.toList());
-    }
+	@Override
+	public List<PlatformServer> servers() {
+		return this.getProxy().getServersCopy().values().stream().map(BungeecordPlatformServer::new).collect(Collectors.toList());
+	}
 
-    @Override
-    public void transferPlayer(PlatformPlayer player, PlatformServer destination) {
-        ((BungeecordPlatformPlayer) player).player().connect(((BungeecordPlatformServer) destination).serverInfo());
-    }
+	@Override
+	public void transferPlayer(PlatformPlayer player, PlatformServer destination) {
+		((BungeecordPlatformPlayer) player).player().connect(((BungeecordPlatformServer) destination).serverInfo());
+	}
 
-    @Override
-    public void transferPlayers(List<PlatformPlayer> players, PlatformServer destination) {
-        ServerInfo destinationServerInfo = ((BungeecordPlatformServer) destination).serverInfo();
-        players.forEach(player -> ((BungeecordPlatformPlayer) player).player().connect(destinationServerInfo));
-    }
+	@Override
+	public void transferPlayers(List<PlatformPlayer> players, PlatformServer destination) {
+		ServerInfo destinationServerInfo = ((BungeecordPlatformServer) destination).serverInfo();
+		players.forEach(player -> ((BungeecordPlatformPlayer) player).player().connect(destinationServerInfo));
+	}
 
-    public ProxyUtils proxyUtils() {
-        return this.proxyUtils;
-    }
+	public ProxyUtils proxyUtils() {
+		return this.proxyUtils;
+	}
 
-    private void registerListeners() {
-        PluginManager manager = this.getProxy().getPluginManager();
-        Stream.of(
-            new LoginListener(this)
-        ).forEach(listener -> manager.registerListener(this, listener));
-    }
+	private void registerListeners() {
+		PluginManager manager = this.getProxy().getPluginManager();
+		Stream.of(
+				new LoginListener(this)
+		).forEach(listener -> manager.registerListener(this, listener));
+	}
 }

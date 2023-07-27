@@ -7,11 +7,11 @@ import io.leangen.geantyref.TypeToken;
 
 public class ProxyUtilsContextKeys {
 
-    public static final CloudKey<Platform> PLATFORM_KEY = SimpleCloudKey.of(
-            "Platform",
-            TypeToken.get(Platform.class)
-    );
+	public static final CloudKey<Platform> PLATFORM_KEY = SimpleCloudKey.of(
+			"Platform",
+			TypeToken.get(Platform.class)
+	);
 
-    private ProxyUtilsContextKeys() {
-    }
+	private ProxyUtilsContextKeys() {
+	}
 }

@@ -29,95 +29,95 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Plugin(
-    id = "proxyutils",
-    name = "ProxyUtils",
-    version = "0.1.0",
-    url = "https://github.com/fabianmakila/ProxyUtils",
-    description = "Common utilities and features for Minecraft proxies.",
-    authors = {"FabianAdrian"}
+		id = "proxyutils",
+		name = "ProxyUtils",
+		version = "0.1.0",
+		url = "https://github.com/fabianmakila/ProxyUtils",
+		description = "Common utilities and features for Minecraft proxies.",
+		authors = {"FabianAdrian"}
 )
 public class ProxyUtilsVelocity implements Platform {
-    private final Path dataDirectory;
-    private final Metrics.Factory metricsFactory;
-    private final ProxyServer server;
-    private final Logger logger;
-    private ProxyUtils proxyUtils;
-    private CommandManager<Commander> commandManager;
+	private final Path dataDirectory;
+	private final Metrics.Factory metricsFactory;
+	private final ProxyServer server;
+	private final Logger logger;
+	private ProxyUtils proxyUtils;
+	private CommandManager<Commander> commandManager;
 
-    @Inject
-    public ProxyUtilsVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory, Metrics.Factory metricsFactory) {
-        this.server = server;
-        this.logger = logger;
-        this.dataDirectory = dataDirectory;
-        this.metricsFactory = metricsFactory;
-    }
+	@Inject
+	public ProxyUtilsVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory, Metrics.Factory metricsFactory) {
+		this.server = server;
+		this.logger = logger;
+		this.dataDirectory = dataDirectory;
+		this.metricsFactory = metricsFactory;
+	}
 
-    @Subscribe
-    public void onProxyInitialization(ProxyInitializeEvent event) {
-        this.commandManager = new VelocityCommandManager<>(
-            this.server.getPluginManager().ensurePluginContainer(this),
-            this.server,
-            CommandExecutionCoordinator.simpleCoordinator(),
-            VelocityCommander::new,
-            commander -> ((VelocityCommander) commander).commandSource()
-        );
+	@Subscribe
+	public void onProxyInitialization(ProxyInitializeEvent event) {
+		this.commandManager = new VelocityCommandManager<>(
+				this.server.getPluginManager().ensurePluginContainer(this),
+				this.server,
+				CommandExecutionCoordinator.simpleCoordinator(),
+				VelocityCommander::new,
+				commander -> ((VelocityCommander) commander).commandSource()
+		);
 
-        this.proxyUtils = new ProxyUtils(this);
+		this.proxyUtils = new ProxyUtils(this);
 
-        registerListeners();
+		registerListeners();
 
-        // bStats
-        this.metricsFactory.make(this, 18439);
-    }
+		// bStats
+		this.metricsFactory.make(this, 18439);
+	}
 
-    @Override
-    public Logger logger() {
-        return this.logger;
-    }
+	@Override
+	public Logger logger() {
+		return this.logger;
+	}
 
-    @Override
-    public Path dataDirectory() {
-        return this.dataDirectory;
-    }
+	@Override
+	public Path dataDirectory() {
+		return this.dataDirectory;
+	}
 
-    @Override
-    public CommandManager<Commander> commandManager() {
-        return this.commandManager;
-    }
+	@Override
+	public CommandManager<Commander> commandManager() {
+		return this.commandManager;
+	}
 
-    @Override
-    public List<PlatformPlayer> onlinePlayers() {
-        return this.server.getAllPlayers().stream().map(VelocityPlatformPlayer::new).collect(Collectors.toList());
-    }
+	@Override
+	public List<PlatformPlayer> onlinePlayers() {
+		return this.server.getAllPlayers().stream().map(VelocityPlatformPlayer::new).collect(Collectors.toList());
+	}
 
-    @Override
-    public List<PlatformServer> servers() {
-        return this.server.getAllServers().stream().map(VelocityPlatformServer::new).collect(Collectors.toList());
-    }
+	@Override
+	public List<PlatformServer> servers() {
+		return this.server.getAllServers().stream().map(VelocityPlatformServer::new).collect(Collectors.toList());
+	}
 
-    @Override
-    public void transferPlayer(PlatformPlayer player, PlatformServer destination) {
-        ((VelocityPlatformPlayer) player).player().createConnectionRequest(
-                ((VelocityPlatformServer) destination).server()
-        ).fireAndForget();
-    }
+	@Override
+	public void transferPlayer(PlatformPlayer player, PlatformServer destination) {
+		((VelocityPlatformPlayer) player).player().createConnectionRequest(
+				((VelocityPlatformServer) destination).server()
+		).fireAndForget();
+	}
 
-    @Override
-    public void transferPlayers(List<PlatformPlayer> players, PlatformServer destination) {
-        RegisteredServer destinationServer = ((VelocityPlatformServer) destination).server();
-        players.forEach(player -> ((VelocityPlatformPlayer) player).player().createConnectionRequest(
-                destinationServer
-        ).fireAndForget());
-    }
+	@Override
+	public void transferPlayers(List<PlatformPlayer> players, PlatformServer destination) {
+		RegisteredServer destinationServer = ((VelocityPlatformServer) destination).server();
+		players.forEach(player -> ((VelocityPlatformPlayer) player).player().createConnectionRequest(
+				destinationServer
+		).fireAndForget());
+	}
 
-    public ProxyUtils proxyUtils() {
-        return this.proxyUtils;
-    }
+	public ProxyUtils proxyUtils() {
+		return this.proxyUtils;
+	}
 
-    private void registerListeners() {
-        EventManager manager = this.server.getEventManager();
-        Stream.of(
-            new LoginListener(this)
-        ).forEach(listener -> manager.register(this, listener));
-    }
+	private void registerListeners() {
+		EventManager manager = this.server.getEventManager();
+		Stream.of(
+				new LoginListener(this)
+		).forEach(listener -> manager.register(this, listener));
+	}
 }

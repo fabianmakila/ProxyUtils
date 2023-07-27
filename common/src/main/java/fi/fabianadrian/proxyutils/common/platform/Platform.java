@@ -8,17 +8,17 @@ import java.nio.file.Path;
 import java.util.List;
 
 public interface Platform {
-    Logger logger();
+	Logger logger();
 
-    Path dataDirectory();
+	Path dataDirectory();
 
-    CommandManager<Commander> commandManager();
+	CommandManager<Commander> commandManager();
 
-    List<PlatformPlayer> onlinePlayers();
+	List<PlatformPlayer> onlinePlayers();
 
-    List<PlatformServer> servers();
+	List<PlatformServer> servers();
 
-    void transferPlayer(PlatformPlayer player, PlatformServer destination);
+	void transferPlayer(PlatformPlayer player, PlatformServer destination);
 
-    void transferPlayers(List<PlatformPlayer> players, PlatformServer destination);
+	void transferPlayers(List<PlatformPlayer> players, PlatformServer destination);
 }

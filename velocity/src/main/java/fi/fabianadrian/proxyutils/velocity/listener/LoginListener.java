@@ -9,24 +9,24 @@ import fi.fabianadrian.proxyutils.velocity.ProxyUtilsVelocity;
 import net.kyori.adventure.text.Component;
 
 public class LoginListener {
-    private final GeoIP2Service geoIP2Service;
+	private final GeoIP2Service geoIP2Service;
 
-    public LoginListener(ProxyUtilsVelocity proxyUtilsVelocity) {
-        this.geoIP2Service = proxyUtilsVelocity.proxyUtils().geoIP2Service();
-    }
+	public LoginListener(ProxyUtilsVelocity proxyUtilsVelocity) {
+		this.geoIP2Service = proxyUtilsVelocity.proxyUtils().geoIP2Service();
+	}
 
-    @Subscribe
-    public void onLogin(LoginEvent event) {
-        if (event.getPlayer().hasPermission("proxyutils.geoip2.bypass")) {
-            return;
-        }
+	@Subscribe
+	public void onLogin(LoginEvent event) {
+		if (event.getPlayer().hasPermission("proxyutils.geoip2.bypass")) {
+			return;
+		}
 
-        if (this.geoIP2Service.isAllowedToJoin(event.getPlayer().getRemoteAddress().getAddress())) {
-            return;
-        }
+		if (this.geoIP2Service.isAllowedToJoin(event.getPlayer().getRemoteAddress().getAddress())) {
+			return;
+		}
 
-        event.setResult(ResultedEvent.ComponentResult.denied(
-                Component.translatable("proxyutils.geoip2.disallowed", Color.RED.textColor)
-        ));
-    }
+		event.setResult(ResultedEvent.ComponentResult.denied(
+				Component.translatable("proxyutils.geoip2.disallowed", Color.RED.textColor)
+		));
+	}
 }

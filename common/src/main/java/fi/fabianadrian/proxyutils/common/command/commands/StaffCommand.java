@@ -14,36 +14,36 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class StaffCommand extends ProxyUtilsCommand {
-    public StaffCommand(ProxyUtils proxyUtils) {
-        super(proxyUtils, "staff");
-    }
+	public StaffCommand(ProxyUtils proxyUtils) {
+		super(proxyUtils, "staff");
+	}
 
-    @Override
-    public void register() {
-        this.manager.command(this.builder().handler(this::executeStaff));
-    }
+	@Override
+	public void register() {
+		this.manager.command(this.builder().handler(this::executeStaff));
+	}
 
-    public void executeStaff(CommandContext<Commander> ctx) {
-        List<String> onlineStaffNames = this.proxyUtils.platform().onlinePlayers().stream()
-                .filter(player -> player.hasPermission("proxyutils.staff"))
-                .map(PlatformPlayer::name)
-                .collect(Collectors.toList());
+	public void executeStaff(CommandContext<Commander> ctx) {
+		List<String> onlineStaffNames = this.proxyUtils.platform().onlinePlayers().stream()
+				.filter(player -> player.hasPermission("proxyutils.staff"))
+				.map(PlatformPlayer::name)
+				.collect(Collectors.toList());
 
-        ctx.getSender().sendMessage(Component.translatable("proxyutils.command.staff.list", Color.GREEN.textColor)
-                .appendNewline()
-                .append(this.list(onlineStaffNames))
-        );
-    }
+		ctx.getSender().sendMessage(Component.translatable("proxyutils.command.staff.list", Color.GREEN.textColor)
+				.appendNewline()
+				.append(this.list(onlineStaffNames))
+		);
+	}
 
-    private Component list(List<String> items) {
-        Component linePrefix = Component.text("- ", Color.GRAY.textColor);
+	private Component list(List<String> items) {
+		Component linePrefix = Component.text("- ", Color.GRAY.textColor);
 
-        List<Component> lines = new ArrayList<>();
+		List<Component> lines = new ArrayList<>();
 
-        for (String item : items) {
-            lines.add(linePrefix.append(Component.text(item, Color.WHITE.textColor)));
-        }
+		for (String item : items) {
+			lines.add(linePrefix.append(Component.text(item, Color.WHITE.textColor)));
+		}
 
-        return Component.join(JoinConfiguration.separator(Component.newline()), lines);
-    }
+		return Component.join(JoinConfiguration.separator(Component.newline()), lines);
+	}
 }

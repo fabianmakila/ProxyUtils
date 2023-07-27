@@ -1,7 +1,7 @@
 plugins {
-    id("proxyutils.java-conventions")
+	id("proxyutils.java-conventions")
 }
 
 dependencies {
-    implementation(project(":common"))
+	implementation(project(":common"))
 }

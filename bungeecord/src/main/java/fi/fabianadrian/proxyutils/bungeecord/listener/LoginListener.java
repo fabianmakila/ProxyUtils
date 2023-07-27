@@ -11,25 +11,25 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 public class LoginListener implements Listener {
-    private final GeoIP2Service geoIP2Service;
+	private final GeoIP2Service geoIP2Service;
 
-    public LoginListener(ProxyUtilsBungeecord plugin) {
-        this.geoIP2Service = plugin.proxyUtils().geoIP2Service();
-    }
+	public LoginListener(ProxyUtilsBungeecord plugin) {
+		this.geoIP2Service = plugin.proxyUtils().geoIP2Service();
+	}
 
-    @EventHandler
-    public void onPostJoin(PostLoginEvent event) {
-        ProxiedPlayer player = event.getPlayer();
-        if (player.hasPermission("proxyutils.geoip2.bypass")) {
-            return;
-        }
+	@EventHandler
+	public void onPostJoin(PostLoginEvent event) {
+		ProxiedPlayer player = event.getPlayer();
+		if (player.hasPermission("proxyutils.geoip2.bypass")) {
+			return;
+		}
 
-        if (this.geoIP2Service.isAllowedToJoin(event.getPlayer().getAddress().getAddress())) {
-            return;
-        }
+		if (this.geoIP2Service.isAllowedToJoin(event.getPlayer().getAddress().getAddress())) {
+			return;
+		}
 
-        player.disconnect(BungeeComponentSerializer.get().serialize(
-                Component.translatable("proxyutils.geoip2.disallowed", Color.RED.textColor)
-        ));
-    }
+		player.disconnect(BungeeComponentSerializer.get().serialize(
+				Component.translatable("proxyutils.geoip2.disallowed", Color.RED.textColor)
+		));
+	}
 }

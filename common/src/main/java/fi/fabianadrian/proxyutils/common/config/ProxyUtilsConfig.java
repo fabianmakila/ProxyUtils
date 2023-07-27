@@ -7,30 +7,31 @@ import java.util.List;
 
 public interface ProxyUtilsConfig {
 
-    static List<String> emptyList() {
-        return List.of();
-    }
+	static List<String> emptyList() {
+		return List.of();
+	}
 
-    GeoIP2 geoIP2();
+	GeoIP2 geoIP2();
 
-    @SubSection
-    interface GeoIP2 {
-        @ConfDefault.DefaultBoolean(false)
-        boolean geolite();
-        @ConfDefault.DefaultInteger(0)
-        int accountID();
+	@SubSection
+	interface GeoIP2 {
+		@ConfDefault.DefaultBoolean(false)
+		boolean geolite();
 
-        @ConfDefault.DefaultString("")
-        String licenceKey();
+		@ConfDefault.DefaultInteger(0)
+		int accountID();
 
-        @ConfDefault.DefaultStrings({})
-        List<String> countryCodes();
+		@ConfDefault.DefaultString("")
+		String licenceKey();
 
-        @ConfDefault.DefaultString("BLACKLIST")
-        ListType listType();
+		@ConfDefault.DefaultStrings({})
+		List<String> countryCodes();
 
-        enum ListType {
-            BLACKLIST, WHITELIST
-        }
-    }
+		@ConfDefault.DefaultString("BLACKLIST")
+		ListType listType();
+
+		enum ListType {
+			BLACKLIST, WHITELIST
+		}
+	}
 }
