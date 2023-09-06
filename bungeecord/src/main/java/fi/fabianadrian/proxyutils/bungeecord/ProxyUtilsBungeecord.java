@@ -4,7 +4,6 @@ import cloud.commandframework.CommandManager;
 import cloud.commandframework.bungee.BungeeCommandManager;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import fi.fabianadrian.proxyutils.bungeecord.command.BungeecordCommander;
-import fi.fabianadrian.proxyutils.bungeecord.listener.LoginListener;
 import fi.fabianadrian.proxyutils.bungeecord.platform.BungeecordPlatformPlayer;
 import fi.fabianadrian.proxyutils.bungeecord.platform.BungeecordPlatformServer;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
@@ -15,19 +14,16 @@ import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.PluginManager;
 import org.bstats.bungeecord.Metrics;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ProxyUtilsBungeecord extends Plugin implements Platform {
 	private BungeeAudiences adventure;
 	private CommandManager<Commander> commandManager;
-	private ProxyUtils proxyUtils;
 
 	@Override
 	public void onEnable() {
@@ -40,9 +36,7 @@ public class ProxyUtilsBungeecord extends Plugin implements Platform {
 				commander -> ((BungeecordCommander) commander).commandSender()
 		);
 
-		this.proxyUtils = new ProxyUtils(this);
-
-		registerListeners();
+		new ProxyUtils(this);
 
 		new Metrics(this, 18438);
 	}
@@ -89,16 +83,5 @@ public class ProxyUtilsBungeecord extends Plugin implements Platform {
 	public void transferPlayers(List<PlatformPlayer> players, PlatformServer destination) {
 		ServerInfo destinationServerInfo = ((BungeecordPlatformServer) destination).serverInfo();
 		players.forEach(player -> ((BungeecordPlatformPlayer) player).player().connect(destinationServerInfo));
-	}
-
-	public ProxyUtils proxyUtils() {
-		return this.proxyUtils;
-	}
-
-	private void registerListeners() {
-		PluginManager manager = this.getProxy().getPluginManager();
-		Stream.of(
-				new LoginListener(this)
-		).forEach(listener -> manager.registerListener(this, listener));
 	}
 }

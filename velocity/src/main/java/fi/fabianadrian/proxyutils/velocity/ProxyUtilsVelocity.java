@@ -4,7 +4,6 @@ import cloud.commandframework.CommandManager;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.velocity.VelocityCommandManager;
 import com.google.inject.Inject;
-import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
@@ -17,7 +16,6 @@ import fi.fabianadrian.proxyutils.common.platform.Platform;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
 import fi.fabianadrian.proxyutils.velocity.command.VelocityCommander;
-import fi.fabianadrian.proxyutils.velocity.listener.LoginListener;
 import fi.fabianadrian.proxyutils.velocity.platform.VelocityPlatformPlayer;
 import fi.fabianadrian.proxyutils.velocity.platform.VelocityPlatformServer;
 import org.bstats.velocity.Metrics;
@@ -26,7 +24,6 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Plugin(
 		id = "proxyutils",
@@ -41,7 +38,6 @@ public class ProxyUtilsVelocity implements Platform {
 	private final Metrics.Factory metricsFactory;
 	private final ProxyServer server;
 	private final Logger logger;
-	private ProxyUtils proxyUtils;
 	private CommandManager<Commander> commandManager;
 
 	@Inject
@@ -62,9 +58,7 @@ public class ProxyUtilsVelocity implements Platform {
 				commander -> ((VelocityCommander) commander).commandSource()
 		);
 
-		this.proxyUtils = new ProxyUtils(this);
-
-		registerListeners();
+		new ProxyUtils(this);
 
 		// bStats
 		this.metricsFactory.make(this, 18439);
@@ -108,16 +102,5 @@ public class ProxyUtilsVelocity implements Platform {
 		players.forEach(player -> ((VelocityPlatformPlayer) player).player().createConnectionRequest(
 				destinationServer
 		).fireAndForget());
-	}
-
-	public ProxyUtils proxyUtils() {
-		return this.proxyUtils;
-	}
-
-	private void registerListeners() {
-		EventManager manager = this.server.getEventManager();
-		Stream.of(
-				new LoginListener(this)
-		).forEach(listener -> manager.register(this, listener));
 	}
 }
