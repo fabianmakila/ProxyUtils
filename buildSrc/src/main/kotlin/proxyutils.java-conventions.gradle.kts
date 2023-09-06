@@ -3,9 +3,9 @@ plugins {
 	id("com.diffplug.spotless")
 }
 
-group = "fi.fabianadrian"
-version = "0.1.0"
-description = "Common utilities and features for Minecraft proxies."
+group = rootProject.group
+version = rootProject.version
+description = rootProject.description
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(11))
 
