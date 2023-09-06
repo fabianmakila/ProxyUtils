@@ -1,3 +1,3 @@
 group = "fi.fabianadrian"
-version = "0.1.0"
+version = "0.2.0"
 description = "Common utilities and features for Minecraft proxies."
