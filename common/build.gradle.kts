@@ -9,11 +9,6 @@ dependencies {
 	compileOnly(libs.guava)
 	compileOnly(libs.snakeyaml)
 
-	implementation(libs.geoip2)
-	implementation(libs.caffeine) {
-		exclude("org.checkerframework")
-	}
-
 	implementation(libs.minimessage) {
 		exclude("net.kyori")
 	}
