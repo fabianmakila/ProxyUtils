@@ -12,7 +12,6 @@ ProxyUtils is part of my proxy plugin suite. You can find all my proxy plugins b
 ## Features
 
 - Commonly used commands like `/find` and `/send`
-- Geolocation based whitelist / blacklist
 - Basic staff list
 
 ## Supported proxies
