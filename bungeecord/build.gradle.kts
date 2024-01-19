@@ -6,21 +6,19 @@ plugins {
 dependencies {
 	compileOnly(libs.waterfall.api)
 
-	implementation(libs.cloud.bungeecord)
 	implementation(libs.adventure.platform.bungeecord)
+	implementation(libs.minimessage)
+
 	implementation(libs.bstats.bungeecord)
+	implementation(libs.cloud.bungeecord)
 }
 
 tasks {
-	build {
-		dependsOn(shadowJar)
-	}
 	shadowJar {
 		sequenceOf(
 			"cloud.commandframework",
 			"io.leangen",
 			"net.kyori",
-			"net.kyori.adventure.text.minimessage",
 			"org.bstats",
 			"space.arim"
 		).forEach {

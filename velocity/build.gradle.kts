@@ -9,19 +9,15 @@ dependencies {
 
 	// Libraries
 	implementation(libs.bstats.velocity)
-	implementation(libs.snakeyaml)
 	implementation(libs.cloud.velocity)
+	implementation(libs.snakeyaml)
 }
 
 tasks {
-	build {
-		dependsOn(shadowJar)
-	}
 	shadowJar {
 		sequenceOf(
 			"cloud.commandframework",
 			"io.leangen",
-			"net.kyori.adventure.text.minimessage",
 			"org.bstats",
 			"org.yaml",
 			"space.arim"

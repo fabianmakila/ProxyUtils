@@ -9,9 +9,7 @@ dependencies {
 	compileOnly(libs.guava)
 	compileOnly(libs.snakeyaml)
 
-	implementation(libs.minimessage) {
-		exclude("net.kyori")
-	}
+	compileOnly(libs.minimessage)
 
 	// Config
 	implementation(libs.dazzleconf) {
