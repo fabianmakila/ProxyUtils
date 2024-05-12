@@ -6,8 +6,8 @@ plugins {
 dependencies {
 	compileOnly(libs.bungeecord.api)
 
+	implementation(libs.adventure.minimessage)
 	implementation(libs.adventure.platform.bungeecord)
-	implementation(libs.minimessage)
 
 	implementation(libs.bstats.bungeecord)
 	implementation(libs.cloud.bungeecord)
