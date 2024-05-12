@@ -16,6 +16,7 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -51,7 +52,7 @@ public class ProxyUtilsBungeecord extends Plugin implements Platform {
 
 	@Override
 	public Logger logger() {
-		return getSLF4JLogger();
+		return LoggerFactory.getLogger(this.getDescription().getName());
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class ProxyUtilsBungeecord extends Plugin implements Platform {
 
 	@Override
 	public List<PlatformServer> servers() {
-		return this.getProxy().getServersCopy().values().stream().map(BungeecordPlatformServer::new).collect(Collectors.toList());
+		return this.getProxy().getServers().values().stream().map(BungeecordPlatformServer::new).collect(Collectors.toList());
 	}
 
 	@Override

@@ -4,13 +4,14 @@ plugins {
 }
 
 dependencies {
-	compileOnly(libs.waterfall.api)
+	compileOnly(libs.bungeecord.api)
 
 	implementation(libs.adventure.platform.bungeecord)
 	implementation(libs.minimessage)
 
 	implementation(libs.bstats.bungeecord)
 	implementation(libs.cloud.bungeecord)
+	implementation(libs.slf4j)
 }
 
 tasks {
@@ -20,7 +21,8 @@ tasks {
 			"io.leangen",
 			"net.kyori",
 			"org.bstats",
-			"space.arim"
+			"space.arim",
+			"org.slf4j"
 		).forEach {
 			relocate(it, "${project.group}.${rootProject.name.lowercase()}.dependency.$it")
 		}
