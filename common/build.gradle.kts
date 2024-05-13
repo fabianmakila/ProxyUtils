@@ -5,7 +5,10 @@ plugins {
 dependencies {
 	compileOnly(libs.adventure.api)
 	compileOnly(libs.adventure.minimessage)
+
 	compileOnly(libs.cloud.core)
+	implementation(libs.cloud.minecraftExtras)
+
 	implementation(libs.dazzleconf) {
 		exclude("org.yaml")
 	}

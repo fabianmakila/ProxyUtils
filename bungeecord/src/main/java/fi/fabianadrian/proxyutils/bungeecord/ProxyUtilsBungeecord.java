@@ -1,8 +1,5 @@
 package fi.fabianadrian.proxyutils.bungeecord;
 
-import cloud.commandframework.CommandManager;
-import cloud.commandframework.bungee.BungeeCommandManager;
-import cloud.commandframework.execution.CommandExecutionCoordinator;
 import fi.fabianadrian.proxyutils.bungeecord.command.BungeecordCommander;
 import fi.fabianadrian.proxyutils.bungeecord.platform.BungeecordPlatformPlayer;
 import fi.fabianadrian.proxyutils.bungeecord.platform.BungeecordPlatformServer;
@@ -12,9 +9,13 @@ import fi.fabianadrian.proxyutils.common.platform.Platform;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
+import org.incendo.cloud.SenderMapper;
+import org.incendo.cloud.bungee.BungeeCommandManager;
+import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,21 +25,13 @@ import java.util.stream.Collectors;
 
 public class ProxyUtilsBungeecord extends Plugin implements Platform {
 	private BungeeAudiences adventure;
-	private CommandManager<Commander> commandManager;
+	private BungeeCommandManager<Commander> commandManager;
 
 	@Override
 	public void onEnable() {
 		this.adventure = BungeeAudiences.create(this);
-
-		this.commandManager = new BungeeCommandManager<>(
-				this,
-				CommandExecutionCoordinator.simpleCoordinator(),
-				commandSource -> new BungeecordCommander(commandSource, this.adventure.sender(commandSource)),
-				commander -> ((BungeecordCommander) commander).commandSender()
-		);
-
+		createCommandManager();
 		new ProxyUtils(this);
-
 		new Metrics(this, 18438);
 	}
 
@@ -61,7 +54,7 @@ public class ProxyUtilsBungeecord extends Plugin implements Platform {
 	}
 
 	@Override
-	public CommandManager<Commander> commandManager() {
+	public BungeeCommandManager<Commander> commandManager() {
 		return this.commandManager;
 	}
 
@@ -84,5 +77,18 @@ public class ProxyUtilsBungeecord extends Plugin implements Platform {
 	public void transferPlayers(List<PlatformPlayer> players, PlatformServer destination) {
 		ServerInfo destinationServerInfo = ((BungeecordPlatformServer) destination).serverInfo();
 		players.forEach(player -> ((BungeecordPlatformPlayer) player).player().connect(destinationServerInfo));
+	}
+
+	private void createCommandManager() {
+		SenderMapper<CommandSender, Commander> senderMapper = SenderMapper.create(
+				commandSource -> new BungeecordCommander(commandSource, this.adventure.sender(commandSource)),
+				commander -> ((BungeecordCommander) commander).commandSender()
+		);
+
+		this.commandManager = new BungeeCommandManager<>(
+				this,
+				ExecutionCoordinator.simpleCoordinator(),
+				senderMapper
+		);
 	}
 }

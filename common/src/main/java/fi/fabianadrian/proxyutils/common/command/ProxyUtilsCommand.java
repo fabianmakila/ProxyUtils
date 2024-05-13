@@ -1,8 +1,8 @@
 package fi.fabianadrian.proxyutils.common.command;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.CommandManager;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.CommandManager;
 
 public abstract class ProxyUtilsCommand {
 	protected final ProxyUtils proxyUtils;

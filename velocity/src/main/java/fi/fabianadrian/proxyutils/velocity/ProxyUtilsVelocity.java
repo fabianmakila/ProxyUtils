@@ -1,9 +1,10 @@
 package fi.fabianadrian.proxyutils.velocity;
 
-import cloud.commandframework.CommandManager;
-import cloud.commandframework.execution.CommandExecutionCoordinator;
-import cloud.commandframework.velocity.VelocityCommandManager;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
@@ -19,6 +20,10 @@ import fi.fabianadrian.proxyutils.velocity.command.VelocityCommander;
 import fi.fabianadrian.proxyutils.velocity.platform.VelocityPlatformPlayer;
 import fi.fabianadrian.proxyutils.velocity.platform.VelocityPlatformServer;
 import org.bstats.velocity.Metrics;
+import org.incendo.cloud.SenderMapper;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.velocity.CloudInjectionModule;
+import org.incendo.cloud.velocity.VelocityCommandManager;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -38,29 +43,28 @@ public class ProxyUtilsVelocity implements Platform {
 	private final Metrics.Factory metricsFactory;
 	private final ProxyServer server;
 	private final Logger logger;
-	private CommandManager<Commander> commandManager;
+	private final Injector injector;
+	private VelocityCommandManager<Commander> commandManager;
 
 	@Inject
-	public ProxyUtilsVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory, Metrics.Factory metricsFactory) {
+	public ProxyUtilsVelocity(
+			ProxyServer server,
+			Logger logger,
+			@DataDirectory Path dataDirectory,
+			Metrics.Factory metricsFactory,
+			Injector injector
+	) {
 		this.server = server;
 		this.logger = logger;
 		this.dataDirectory = dataDirectory;
 		this.metricsFactory = metricsFactory;
+		this.injector = injector;
 	}
 
 	@Subscribe
 	public void onProxyInitialization(ProxyInitializeEvent event) {
-		this.commandManager = new VelocityCommandManager<>(
-				this.server.getPluginManager().ensurePluginContainer(this),
-				this.server,
-				CommandExecutionCoordinator.simpleCoordinator(),
-				VelocityCommander::new,
-				commander -> ((VelocityCommander) commander).commandSource()
-		);
-
+		createCommandManager();
 		new ProxyUtils(this);
-
-		// bStats
 		this.metricsFactory.make(this, 18439);
 	}
 
@@ -75,7 +79,7 @@ public class ProxyUtilsVelocity implements Platform {
 	}
 
 	@Override
-	public CommandManager<Commander> commandManager() {
+	public VelocityCommandManager<Commander> commandManager() {
 		return this.commandManager;
 	}
 
@@ -102,5 +106,20 @@ public class ProxyUtilsVelocity implements Platform {
 		players.forEach(player -> ((VelocityPlatformPlayer) player).player().createConnectionRequest(
 				destinationServer
 		).fireAndForget());
+	}
+
+	private void createCommandManager() {
+		SenderMapper<CommandSource, Commander> senderMapper = SenderMapper.create(
+				VelocityCommander::new,
+				commander -> ((VelocityCommander) commander).commandSource()
+		);
+
+		Injector childInjector = this.injector.createChildInjector(
+				new CloudInjectionModule<>(Commander.class, ExecutionCoordinator.simpleCoordinator(), senderMapper)
+		);
+		this.commandManager = childInjector.getInstance(
+				Key.get(new TypeLiteral<>() {
+				})
+		);
 	}
 }

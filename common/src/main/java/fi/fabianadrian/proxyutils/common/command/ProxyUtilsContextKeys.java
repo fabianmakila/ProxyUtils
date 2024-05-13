@@ -1,15 +1,13 @@
 package fi.fabianadrian.proxyutils.common.command;
 
-import cloud.commandframework.keys.CloudKey;
-import cloud.commandframework.keys.SimpleCloudKey;
 import fi.fabianadrian.proxyutils.common.platform.Platform;
-import io.leangen.geantyref.TypeToken;
+import org.incendo.cloud.key.CloudKey;
 
 public class ProxyUtilsContextKeys {
 
-	public static final CloudKey<Platform> PLATFORM_KEY = SimpleCloudKey.of(
+	public static final CloudKey<Platform> PLATFORM_KEY = CloudKey.of(
 			"Platform",
-			TypeToken.get(Platform.class)
+			Platform.class
 	);
 
 	private ProxyUtilsContextKeys() {

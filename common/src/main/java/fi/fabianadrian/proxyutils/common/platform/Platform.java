@@ -1,7 +1,7 @@
 package fi.fabianadrian.proxyutils.common.platform;
 
-import cloud.commandframework.CommandManager;
 import fi.fabianadrian.proxyutils.common.command.Commander;
+import org.incendo.cloud.CommandManager;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;

@@ -17,7 +17,7 @@ dependencies {
 tasks {
 	shadowJar {
 		sequenceOf(
-			"cloud.commandframework",
+			"org.incendo.cloud",
 			"io.leangen",
 			"net.kyori",
 			"org.bstats",

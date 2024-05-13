@@ -1,11 +1,11 @@
 package fi.fabianadrian.proxyutils.common.command.commands;
 
-import cloud.commandframework.context.CommandContext;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
 import fi.fabianadrian.proxyutils.common.locale.Color;
 import net.kyori.adventure.text.Component;
+import org.incendo.cloud.context.CommandContext;
 
 public class RootCommand extends ProxyUtilsCommand {
 	public RootCommand(ProxyUtils proxyUtils) {
@@ -22,7 +22,7 @@ public class RootCommand extends ProxyUtilsCommand {
 	private void executeReload(CommandContext<Commander> ctx) {
 		this.proxyUtils.reload();
 
-		ctx.getSender().sendMessage(
+		ctx.sender().sendMessage(
 				Component.translatable("proxyutils.command.root.reload", Color.GREEN.textColor)
 		);
 	}

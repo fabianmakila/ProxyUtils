@@ -1,15 +1,15 @@
 package fi.fabianadrian.proxyutils.common.command.commands;
 
-import cloud.commandframework.context.CommandContext;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
-import fi.fabianadrian.proxyutils.common.command.argument.PlayerArgument;
-import fi.fabianadrian.proxyutils.common.command.argument.ServerArgument;
 import fi.fabianadrian.proxyutils.common.locale.Color;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
+import org.incendo.cloud.context.CommandContext;
 
+import static fi.fabianadrian.proxyutils.common.command.parser.PlayerParser.playerParser;
+import static fi.fabianadrian.proxyutils.common.command.parser.ServerParser.serverParser;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
@@ -25,13 +25,13 @@ public class SendCommand extends ProxyUtilsCommand {
 	@Override
 	public void register() {
 		this.manager.command(
-				subCommand("player").argument(PlayerArgument.of(PLAYER_KEY)).argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendPlayer)
+				subCommand("player").required(PLAYER_KEY, playerParser()).required(DESTINATION_KEY, serverParser()).handler(this::executeSendPlayer)
 		);
 		this.manager.command(
-				subCommand("server").argument(ServerArgument.of(SERVER_KEY)).argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendServer)
+				subCommand("server").required(SERVER_KEY, serverParser()).required(DESTINATION_KEY, serverParser()).handler(this::executeSendServer)
 		);
 		this.manager.command(
-				subCommand("all").argument(ServerArgument.of(DESTINATION_KEY)).handler(this::executeSendAll)
+				subCommand("all").required(DESTINATION_KEY, serverParser()).handler(this::executeSendAll)
 		);
 	}
 
@@ -41,8 +41,8 @@ public class SendCommand extends ProxyUtilsCommand {
 
 		this.proxyUtils.platform().transferPlayer(player, server);
 
-		ctx.getSender().sendMessage(translatable("proxyutils.command.send.player", Color.GREEN.textColor)
-				.args(text(player.name()), text(server.name()))
+		ctx.sender().sendMessage(translatable("proxyutils.command.send.player", Color.GREEN.textColor)
+				.arguments(text(player.name()), text(server.name()))
 		);
 	}
 
@@ -52,9 +52,9 @@ public class SendCommand extends ProxyUtilsCommand {
 
 		this.proxyUtils.platform().transferPlayers(server.players(), destination);
 
-		ctx.getSender().sendMessage(
+		ctx.sender().sendMessage(
 				translatable("proxyutils.command.send.server", Color.GREEN.textColor)
-						.args(text(server.name()), text(destination.name()))
+						.arguments(text(server.name()), text(destination.name()))
 		);
 	}
 
@@ -66,9 +66,9 @@ public class SendCommand extends ProxyUtilsCommand {
 				destination
 		);
 
-		ctx.getSender().sendMessage(
+		ctx.sender().sendMessage(
 				translatable("proxyutils.command.send.all", Color.GREEN.textColor)
-						.args(text(destination.name()))
+						.arguments(text(destination.name()))
 		);
 	}
 }

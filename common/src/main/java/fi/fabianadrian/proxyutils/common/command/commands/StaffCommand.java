@@ -1,6 +1,5 @@
 package fi.fabianadrian.proxyutils.common.command.commands;
 
-import cloud.commandframework.context.CommandContext;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import fi.fabianadrian.proxyutils.common.command.Commander;
 import fi.fabianadrian.proxyutils.common.command.ProxyUtilsCommand;
@@ -8,6 +7,7 @@ import fi.fabianadrian.proxyutils.common.locale.Color;
 import fi.fabianadrian.proxyutils.common.platform.PlatformPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
+import org.incendo.cloud.context.CommandContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class StaffCommand extends ProxyUtilsCommand {
 				.map(PlatformPlayer::name)
 				.collect(Collectors.toList());
 
-		ctx.getSender().sendMessage(Component.translatable("proxyutils.command.staff.list", Color.GREEN.textColor)
+		ctx.sender().sendMessage(Component.translatable("proxyutils.command.staff.list", Color.GREEN.textColor)
 				.appendNewline()
 				.append(this.list(onlineStaffNames))
 		);
