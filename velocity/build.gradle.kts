@@ -10,16 +10,14 @@ dependencies {
 	// Libraries
 	implementation(libs.bstats.velocity)
 	implementation(libs.cloud.velocity)
-	implementation(libs.snakeyaml)
 }
 
 tasks {
 	shadowJar {
 		sequenceOf(
-			"org.incendo.cloud",
 			"io.leangen",
 			"org.bstats",
-			"org.yaml",
+			"org.incendo.cloud",
 			"space.arim"
 		).forEach {
 			relocate(it, "${project.group}.${rootProject.name.lowercase()}.dependency.$it")
