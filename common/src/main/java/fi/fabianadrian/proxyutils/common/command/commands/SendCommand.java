@@ -13,7 +13,7 @@ import static fi.fabianadrian.proxyutils.common.command.parser.ServerParser.serv
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
-public class SendCommand extends ProxyUtilsCommand {
+public final class SendCommand extends ProxyUtilsCommand {
 	private static final String PLAYER_KEY = "player";
 	private static final String SERVER_KEY = "server";
 	private static final String DESTINATION_KEY = "destination";

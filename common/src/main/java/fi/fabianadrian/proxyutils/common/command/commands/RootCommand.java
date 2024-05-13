@@ -7,7 +7,7 @@ import fi.fabianadrian.proxyutils.common.locale.Color;
 import net.kyori.adventure.text.Component;
 import org.incendo.cloud.context.CommandContext;
 
-public class RootCommand extends ProxyUtilsCommand {
+public final class RootCommand extends ProxyUtilsCommand {
 	public RootCommand(ProxyUtils proxyUtils) {
 		super(proxyUtils, "proxyutils");
 	}

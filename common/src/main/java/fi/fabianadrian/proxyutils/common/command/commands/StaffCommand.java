@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StaffCommand extends ProxyUtilsCommand {
+public final class StaffCommand extends ProxyUtilsCommand {
 	public StaffCommand(ProxyUtils proxyUtils) {
 		super(proxyUtils, "staff");
 	}

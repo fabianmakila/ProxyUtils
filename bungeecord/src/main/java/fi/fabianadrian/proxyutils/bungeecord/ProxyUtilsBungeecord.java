@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProxyUtilsBungeecord extends Plugin implements Platform {
+public final class ProxyUtilsBungeecord extends Plugin implements Platform {
 	private BungeeAudiences adventure;
 	private BungeeCommandManager<Commander> commandManager;
 

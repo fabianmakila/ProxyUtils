@@ -11,7 +11,7 @@ import org.incendo.cloud.context.CommandContext;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
-public class FindCommand extends ProxyUtilsCommand {
+public final class FindCommand extends ProxyUtilsCommand {
 	public FindCommand(ProxyUtils proxyUtils) {
 		super(proxyUtils, "find");
 	}

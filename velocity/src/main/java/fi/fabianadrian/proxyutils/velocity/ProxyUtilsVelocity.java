@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 		description = "Common utilities and features for Minecraft proxies.",
 		authors = {"FabianAdrian"}
 )
-public class ProxyUtilsVelocity implements Platform {
+public final class ProxyUtilsVelocity implements Platform {
 	private final Path dataDirectory;
 	private final Metrics.Factory metricsFactory;
 	private final ProxyServer server;

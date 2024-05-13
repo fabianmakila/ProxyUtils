@@ -7,13 +7,7 @@ import fi.fabianadrian.proxyutils.common.platform.PlatformServer;
 
 import java.util.Optional;
 
-public class VelocityPlatformPlayer implements PlatformPlayer {
-	private final Player player;
-
-	public VelocityPlatformPlayer(Player player) {
-		this.player = player;
-	}
-
+public record VelocityPlatformPlayer(Player player) implements PlatformPlayer {
 	@Override
 	public String name() {
 		return player.getUsername();
@@ -28,9 +22,5 @@ public class VelocityPlatformPlayer implements PlatformPlayer {
 	@Override
 	public boolean hasPermission(String permission) {
 		return player.hasPermission(permission);
-	}
-
-	public Player player() {
-		return this.player;
 	}
 }

@@ -5,17 +5,7 @@ import fi.fabianadrian.proxyutils.common.command.Commander;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 
-public class VelocityCommander implements Commander {
-	private final CommandSource commandSource;
-
-	public VelocityCommander(CommandSource commandSource) {
-		this.commandSource = commandSource;
-	}
-
-	public CommandSource commandSource() {
-		return this.commandSource;
-	}
-
+public record VelocityCommander(CommandSource commandSource) implements Commander {
 	@Override
 	public boolean hasPermission(String permission) {
 		return this.commandSource.hasPermission(permission);

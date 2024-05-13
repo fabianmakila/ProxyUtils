@@ -6,13 +6,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Optional;
 
-public class BungeecordPlatformPlayer implements PlatformPlayer {
-	private final ProxiedPlayer player;
-
-	public BungeecordPlatformPlayer(ProxiedPlayer player) {
-		this.player = player;
-	}
-
+public record BungeecordPlatformPlayer(ProxiedPlayer player) implements PlatformPlayer {
 	@Override
 	public String name() {
 		return this.player.getName();
@@ -26,9 +20,5 @@ public class BungeecordPlatformPlayer implements PlatformPlayer {
 	@Override
 	public boolean hasPermission(String permission) {
 		return this.player.hasPermission(permission);
-	}
-
-	public ProxiedPlayer player() {
-		return this.player;
 	}
 }
