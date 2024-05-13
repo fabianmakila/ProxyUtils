@@ -1,134 +1,126 @@
 package fi.fabianadrian.proxyutils.common.locale;
 
-import com.google.common.collect.Maps;
 import fi.fabianadrian.proxyutils.common.ProxyUtils;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.translation.GlobalTranslator;
 import net.kyori.adventure.translation.TranslationRegistry;
 import net.kyori.adventure.translation.Translator;
+import net.kyori.adventure.util.UTF8ResourceBundleControl;
+import org.slf4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class TranslationManager {
 	public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
-	public static final List<Locale> BUNDLED_LOCALES = List.of(new Locale("fi", "FI"));
+	public static final List<Locale> BUNDLED_LOCALES = List.of(DEFAULT_LOCALE, new Locale("fi", "FI"));
 
-	private final ProxyUtils proxyUtils;
-	private final Set<Locale> installed = ConcurrentHashMap.newKeySet();
 	private final Path translationsDirectory;
+	private final Logger logger;
 	private TranslationRegistry registry;
 
 	public TranslationManager(ProxyUtils proxyUtils) {
-		this.proxyUtils = proxyUtils;
-		this.translationsDirectory = this.proxyUtils.platform().dataDirectory().resolve("translations");
-
-		try {
-			createDirectoryIfNotExists(this.translationsDirectory);
-		} catch (IOException ignored) {
-		}
+		this.logger = proxyUtils.platform().logger();
+		this.translationsDirectory = proxyUtils.platform().dataDirectory().resolve("translations");
 	}
 
-	public static boolean isTranslationFile(Path path) {
-		return path.getFileName().toString().endsWith(".properties");
-	}
-
-	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	private static boolean isAdventureDuplicatesException(Exception e) {
 		return e instanceof IllegalArgumentException && (e.getMessage().startsWith("Invalid key") || e.getMessage().startsWith("Translation already exists"));
 	}
 
-	public static Locale parseLocale(String locale) {
-		return locale == null ? null : Translator.parseLocale(locale);
-	}
-
 	public void reload() {
-		// remove any previous registry
 		if (this.registry != null) {
 			GlobalTranslator.translator().removeSource(this.registry);
 		}
 
-		// create a translation registry
-		this.registry = TranslationRegistry.create(Key.key("proxychat", "main"));
+		this.registry = TranslationRegistry.create(Key.key("proxyutils", "main"));
 		this.registry.defaultLocale(DEFAULT_LOCALE);
 
-		// load custom translations first, then the base (built-in) translations after.
-		loadFromFileSystem(translationsDirectory, false);
+		try {
+			Files.createDirectories(this.translationsDirectory);
+
+			writeExampleTranslationsToDisk();
+			loadFromFileSystem(this.translationsDirectory);
+		} catch (IOException e) {
+			this.logger.error("Could not create translations directory", e);
+		}
+
 		loadFromResourceBundle();
 
-		// register it to the global source, so our translations can be picked up by adventure-platform
+		// register to the global source, so our translations can be picked up by adventure-platform
 		GlobalTranslator.translator().addSource(this.registry);
 	}
 
 	/**
-	 * Loads the bundled translations from the jar file.
+	 * Loads the bundled translations included inside the jar.
 	 */
 	private void loadFromResourceBundle() {
-		ResourceBundle defaultBundle = ResourceBundle.getBundle("messages", DEFAULT_LOCALE);
-		try {
-			this.registry.registerAll(DEFAULT_LOCALE, defaultBundle, false);
-			BUNDLED_LOCALES.forEach(locale -> {
-				ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
-				this.registry.registerAll(locale, bundle, false);
-			});
-		} catch (IllegalArgumentException e) {
-			this.proxyUtils.platform().logger().warn("Error loading default locale file", e);
-		}
-	}
-
-	/**
-	 * Loads any custom translations from the plugin configuration folder.
-	 */
-	public void loadFromFileSystem(Path directory, boolean suppressDuplicatesError) {
-		List<Path> translationFiles;
-		try (Stream<Path> stream = Files.list(directory)) {
-			translationFiles = stream.filter(TranslationManager::isTranslationFile).collect(Collectors.toList());
-		} catch (IOException e) {
-			translationFiles = Collections.emptyList();
-		}
-
-		if (translationFiles.isEmpty()) {
-			return;
-		}
-
-		Map<Locale, ResourceBundle> loaded = new HashMap<>();
-		for (Path translationFile : translationFiles) {
+		BUNDLED_LOCALES.forEach(locale -> {
+			ResourceBundle bundle = ResourceBundle.getBundle("messages", locale, UTF8ResourceBundleControl.get());
 			try {
-				Map.Entry<Locale, ResourceBundle> result = loadTranslationFile(translationFile);
-				loaded.put(result.getKey(), result.getValue());
-			} catch (Exception e) {
-				if (!suppressDuplicatesError || !isAdventureDuplicatesException(e)) {
-					this.proxyUtils.platform().logger().warn("Error loading locale file: " + translationFile.getFileName(), e);
+				this.registry.registerAll(locale, bundle, false);
+			} catch (IllegalArgumentException e) {
+				if (isAdventureDuplicatesException(e)) {
+					return;
 				}
-			}
-		}
-
-		// try registering the locale without a country code - if we don't already have a registration for that
-		loaded.forEach((locale, bundle) -> {
-			Locale localeWithoutCountry = new Locale(locale.getLanguage());
-			if (!locale.equals(localeWithoutCountry) && !localeWithoutCountry.equals(DEFAULT_LOCALE) && this.installed.add(localeWithoutCountry)) {
-				try {
-					this.registry.registerAll(localeWithoutCountry, bundle, false);
-				} catch (IllegalArgumentException e) {
-					// ignore
-				}
+				this.logger.warn("Error loading default locale file", e);
 			}
 		});
 	}
 
-	private Map.Entry<Locale, ResourceBundle> loadTranslationFile(Path translationFile) throws IOException {
-		String fileName = translationFile.getFileName().toString();
-		String localeString = fileName.substring(0, fileName.length() - ".properties".length());
-		Locale locale = parseLocale(localeString);
+	private void writeExampleTranslationsToDisk() {
+		ResourceBundle defaultBundle = ResourceBundle.getBundle("messages", DEFAULT_LOCALE, UTF8ResourceBundleControl.get());
 
+		// Extract all key-value pairs from the ResourceBundle
+		List<String> lines = new ArrayList<>();
+		defaultBundle.getKeys().asIterator().forEachRemaining(key -> lines.add(key + "=" + defaultBundle.getString(key)));
+		Collections.sort(lines);
+
+		try {
+			Files.write(this.translationsDirectory.resolve("messages_example.properties"), lines);
+		} catch (IOException e) {
+			this.logger.warn("Error saving example translation file", e);
+		}
+	}
+
+	private void loadFromFileSystem(Path directory) {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(directory, "*.properties")) {
+			StringJoiner loadedLocaleNamesJoiner = new StringJoiner(", ");
+
+			for (Path translationFile : stream) {
+				// Skip reference file
+				if ("messages_example.properties".equalsIgnoreCase(translationFile.getFileName().toString())) {
+					continue;
+				}
+
+				try {
+					Locale locale = loadTranslationFile(translationFile);
+					loadedLocaleNamesJoiner.add(locale.getLanguage());
+				} catch (Exception e) {
+					this.logger.warn("Error loading locale file: {}", translationFile.getFileName(), e);
+				}
+			}
+
+			if (loadedLocaleNamesJoiner.length() != 0) {
+				this.logger.info("Loaded custom translations for {}", loadedLocaleNamesJoiner);
+			}
+		} catch (IOException e) {
+			this.logger.warn("Error reading the translations directory", e);
+		}
+	}
+
+	private Locale loadTranslationFile(Path translationFile) throws IOException {
+		String fileName = translationFile.getFileName().toString();
+		String localeString = fileName.substring(
+				"messages_".length(),
+				fileName.length() - ".properties".length()
+		);
+		Locale locale = Translator.parseLocale(localeString);
 		if (locale == null) {
 			throw new IllegalStateException("Unknown locale '" + localeString + "' - unable to register.");
 		}
@@ -139,21 +131,6 @@ public final class TranslationManager {
 		}
 
 		this.registry.registerAll(locale, bundle, false);
-		this.installed.add(locale);
-		return Maps.immutableEntry(locale, bundle);
-	}
-
-	private Path createDirectoryIfNotExists(Path path) throws IOException {
-		if (Files.exists(path) && (Files.isDirectory(path) || Files.isSymbolicLink(path))) {
-			return path;
-		}
-
-		try {
-			Files.createDirectory(path);
-		} catch (FileAlreadyExistsException e) {
-			// ignore
-		}
-
-		return path;
+		return locale;
 	}
 }
