@@ -2,6 +2,8 @@
 adventure = "4.17.0"
 bstats = "3.0.2"
 cloud-minecraft = "2.0.0-beta.9"
+run = "2.3.0"
+
 
 [libraries]
 adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
@@ -28,6 +30,8 @@ bungeecord-api = { module = "net.md-5:bungeecord-api", version = "1.20-R0.3-SNAP
 velocity-api = { module = "com.velocitypowered:velocity-api", version = "3.3.0-SNAPSHOT" }
 
 [plugins]
+pluginYml-bungee = { id = "net.minecrell.plugin-yml.bungee", version = "0.6.0" }
+run-waterfall = { id = "xyz.jpenilla.run-waterfall", version.ref = "run" }
+run-velocity = { id = "xyz.jpenilla.run-velocity", version.ref = "run" }
 shadow = { id = "com.gradleup.shadow", version = "8.3.0" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.0.BETA1" }
-pluginYml-bungee = { id = "net.minecrell.plugin-yml.bungee", version = "0.6.0" }

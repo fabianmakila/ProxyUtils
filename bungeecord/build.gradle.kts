@@ -1,6 +1,7 @@
 plugins {
 	id("proxyutils.platform-conventions")
 	alias(libs.plugins.pluginYml.bungee)
+	alias(libs.plugins.run.waterfall)
 }
 
 dependencies {
@@ -15,6 +16,9 @@ dependencies {
 }
 
 tasks {
+	runWaterfall {
+		waterfallVersion("1.21")
+	}
 	shadowJar {
 		sequenceOf(
 			"org.incendo.cloud",
