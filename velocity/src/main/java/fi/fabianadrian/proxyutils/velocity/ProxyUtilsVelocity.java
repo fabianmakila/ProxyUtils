@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Plugin(
 		id = "proxyutils",
 		name = "ProxyUtils",
-		version = "0.2.0",
+		version = "0.3.0",
 		url = "https://github.com/fabianmakila/ProxyUtils",
 		description = "Common utilities and features for Minecraft proxies.",
 		authors = {"FabianAdrian"}
