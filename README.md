@@ -1,4 +1,12 @@
-![ProxyUtilsBanner](/assets/proxyutils-banner.png)
+![Banner](/assets/proxyutils-banner.svg)
+
+[<img src="https://img.shields.io/modrinth/dt/StpOdCTG?style=for-the-badge&logo=modrinth&labelColor=%23111827&color=%23facc15">](https://modrinth.com/plugin/proxyutils)
+![Repository Size Badge](https://img.shields.io/github/repo-size/fabianmakila/proxyutils?style=for-the-badge&labelColor=%23111827&color=%23facc15)
+[<img src="https://img.shields.io/github/v/release/fabianmakila/proxyutils?include_prereleases&style=for-the-badge&labelColor=%23111827&color=%23facc15">](https://github.com/fabianmakila/proxyutils/releases)
+
+> [!IMPORTANT]
+> This README is intended for plugin developers. See the [Modrinth page](https://modrinth.com/plugin/proxyutils) for a more user-friendly description.
+
 
 # ProxyUtils
 
